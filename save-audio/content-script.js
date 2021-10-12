@@ -1,13 +1,20 @@
 function makeDownloadLinkFromAudioSource(audioSourceElement) {
   const audioClipNumber = audioSourceElement.src.split("/").slice(-1)[0].split("=").slice(-1)[0].split(".")[0];
   const a = document.createElement("a");
-  a.appendChild(document.createTextNode("💾"));
-  a.title = "Download";
-  a.ariaLabel = "Download";
+  if (audioSourceElement.src.includes(".php")) {
+    a.appendChild(document.createTextNode("👴🏻"));
+    a.title = "Download";
+    a.ariaLabel = "Download";
+  } else {
+    a.appendChild(document.createTextNode("💾"));
+    a.title = "Download or copy";
+    a.ariaLabel = "Download or copy";
+  }
   a.href = audioSourceElement.src;
   a.download = audioClipNumber + ".mp3";
   a.target = "_blank"; // point the link at a new window in case it's clicked
   a.style.userSelect = "none";
+  a.style.textDecoration = "none";
 
   audioSourceElement.parentElement.parentElement.parentElement.appendChild(a);
 }
