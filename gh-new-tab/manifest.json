@@ -1,0 +1,26 @@
+{
+  "name": "GH New Tab",
+  "description": "Open all GitHub README links in a new tab",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {},
+  "host_permissions": [
+    "https://github.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs",
+    "webNavigation"
+  ],
+  "icons": {
+    "16": "/images/icon-16x16.png",
+    "32": "/images/icon-32x32.png",
+    "48": "/images/icon-192x192.png",
+    "128": "/images/icon-512x512.png"
+  }
+}
