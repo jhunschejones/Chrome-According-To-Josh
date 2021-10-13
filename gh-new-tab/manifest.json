@@ -1,6 +1,6 @@
 {
   "name": "GH New Tab",
-  "description": "Open all GitHub README links in a new tab",
+  "description": "Open GitHub markdown links in a new tab",
   "version": "1.0",
   "manifest_version": 3,
   "action": {},
