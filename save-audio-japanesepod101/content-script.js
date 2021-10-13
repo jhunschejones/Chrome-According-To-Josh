@@ -16,7 +16,11 @@ function makeDownloadLinkFromAudioSource(audioSourceElement) {
   a.style.userSelect = "none";
   a.style.textDecoration = "none";
 
-  audioSourceElement.parentElement.parentElement.parentElement.appendChild(a);
+  if (window.location.pathname == "/japanese-dictionary/") {
+    audioSourceElement.parentElement.parentElement.parentElement.appendChild(a);
+  } else if (window.location.pathname == "/japanese-word-lists/") {
+    audioSourceElement.parentElement.appendChild(a);
+  }
 }
 
 function reactToNewResults() {
@@ -38,4 +42,13 @@ function reactToNewResults() {
 }
 
 // Watch the search form
-document.getElementById("dc-search-form").addEventListener("submit", reactToNewResults);
+if (window.location.pathname == "/japanese-dictionary/") {
+  document.getElementById("dc-search-form").addEventListener("submit", reactToNewResults);
+}
+
+if (window.location.pathname == "/japanese-word-lists/") {
+  Array.from(
+    document.querySelectorAll(".wlv-item__audio-box audio"),
+    e => makeDownloadLinkFromAudioSource(e)
+  );
+}

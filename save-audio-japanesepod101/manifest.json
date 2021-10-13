@@ -5,10 +5,14 @@
   "manifest_version": 3,
   "content_scripts": [{
     "js": ["content-script.js"],
-    "matches": ["https://www.japanesepod101.com/japanese-dictionary/*"]
+    "matches": [
+      "https://www.japanesepod101.com/japanese-dictionary/*",
+      "https://www.japanesepod101.com/japanese-word-lists/*"
+    ]
   }],
   "host_permissions": [
-    "https://www.japanesepod101.com/japanese-dictionary/*"
+    "https://www.japanesepod101.com/japanese-dictionary/*",
+    "https://www.japanesepod101.com/japanese-word-lists/*"
   ],
   "icons": {
     "16": "/images/icon-16x16.png",
