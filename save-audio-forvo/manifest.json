@@ -1,0 +1,19 @@
+{
+  "name": "Save Audio Forvo",
+  "description": "Bringing a little more HTML to the world of JavaScript audio files, this time on forvo.com.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts": [{
+    "js": ["content-script.js"],
+    "matches": ["https://forvo.com/word/*"]
+  }],
+  "host_permissions": [
+    "https://forvo.com/word/*"
+  ],
+  "icons": {
+    "16": "/images/icon-16x16.png",
+    "32": "/images/icon-32x32.png",
+    "48": "/images/icon-192x192.png",
+    "128": "/images/icon-512x512.png"
+  }
+}
