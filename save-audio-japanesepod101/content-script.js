@@ -48,7 +48,7 @@ if (window.location.pathname == "/japanese-dictionary/") {
 
 if (window.location.pathname == "/japanese-word-lists/") {
   Array.from(
-    document.querySelectorAll(".wlv-item__audio-box audio"),
+    document.querySelectorAll(".wlv-item__word-container .wlv-item__audio-box audio"),
     e => makeDownloadLinkFromAudioSource(e)
   );
 }
