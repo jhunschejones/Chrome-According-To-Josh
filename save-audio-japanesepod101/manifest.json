@@ -1,6 +1,6 @@
 {
-  "name": "Save Audio",
-  "description": "Add a real HTML link to japanesepod101.com's dictionary search results　for the full-speed audio clips",
+  "name": "Save Audio JapanesePod101",
+  "description": "Bringing a little HTML to the world of JavaScript audio files on japanesepod101.com.",
   "version": "1.0",
   "manifest_version": 3,
   "content_scripts": [{

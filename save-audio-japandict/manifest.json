@@ -1,6 +1,6 @@
 {
   "name": "Save Audio JapanDict",
-  "description": "Add a real HTML link to japandict.com's dictionary result page",
+  "description": "Bringing a little more HTML to the world of JavaScript audio files, this time on japandict.com.",
   "version": "1.0",
   "manifest_version": 3,
   "content_scripts": [{
