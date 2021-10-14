@@ -2,7 +2,7 @@ function executeScriptOnAllGitHubTabs(script) {
   chrome.tabs.query({}, function (tabs) {
     for (var i = 0; i < tabs.length; i++) {
       // Run JS to update page content for all tabs that are for github pages
-      if (tabs[i].url.match(/https:\/\/github\.com\/*/)) {
+      if (tabs[i].url.match(/https:\/\/.*github\.com\/*/)) {
         chrome.scripting.executeScript({
           target: { tabId: tabs[i].id },
           files: [script]
@@ -13,6 +13,7 @@ function executeScriptOnAllGitHubTabs(script) {
 }
 
 chrome.webNavigation.onCompleted.addListener(function() {
+  console.log("extension running")
   // 1. Check current local storage value
   chrome.storage.local.get(["gh_new_tab"], function(result) {
     if(result.gh_new_tab == "enabled") {
