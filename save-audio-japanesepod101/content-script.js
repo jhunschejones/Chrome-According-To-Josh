@@ -52,3 +52,12 @@ if (window.location.pathname == "/japanese-word-lists/") {
     e => makeDownloadLinkFromAudioSource(e)
   );
 }
+
+// If we're on the ditionary page and a search was passed in, execute it!
+if (window.location.pathname == "/japanese-dictionary/") {
+  const search = Object.fromEntries(new URLSearchParams(window.location.search).entries())["search"];
+  if (search != undefined) {
+    document.getElementById("dc-search-input").value = search;
+    document.getElementById("dc-search-button").click();
+  }
+}
