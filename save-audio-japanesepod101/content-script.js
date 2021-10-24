@@ -59,5 +59,6 @@ if (window.location.pathname == "/japanese-dictionary/") {
   if (search != undefined) {
     document.getElementById("dc-search-input").value = search;
     document.getElementById("dc-search-button").click();
+    reactToNewResults();
   }
 }
