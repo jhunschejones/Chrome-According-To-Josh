@@ -55,10 +55,19 @@ if (window.location.pathname == "/japanese-word-lists/") {
 
 // If we're on the ditionary page and a search was passed in, execute it!
 if (window.location.pathname == "/japanese-dictionary/") {
-  const search = Object.fromEntries(new URLSearchParams(window.location.search).entries())["search"];
-  if (search != undefined) {
-    document.getElementById("dc-search-input").value = search;
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("search")) {
+    document.getElementById("dc-search-input").value = urlParams.get("search");
     document.getElementById("dc-search-button").click();
     reactToNewResults();
+  }
+}
+
+// If we're on the wordlist page and getting the default core 100 list, go to the core 2000 list instead
+if (window.location.pathname == "/japanese-word-lists/") {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (["100", null].includes(urlParams.get("coreX"))) {
+    urlParams.set("coreX", "2000");
+    window.location.search = `?${urlParams.toString()}`;
   }
 }
