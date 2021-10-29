@@ -16,7 +16,8 @@
     {
       "resources": [
         "/images/notifications-icon.png",
-        "/images/issues-icon.png"
+        "/images/issues-icon.png",
+        "/images/career-journal-icon.png"
       ],
       "matches": [ "https://github.com/*" ]
     }
