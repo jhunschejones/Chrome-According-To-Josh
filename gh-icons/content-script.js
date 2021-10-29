@@ -4,6 +4,12 @@ if (window.location.pathname == "/notifications") {
   });
 }
 
+if (window.location.pathname.includes("/projects/")) {
+  document.querySelectorAll(".js-site-favicon").forEach((icon) => {
+    icon.href = chrome.runtime.getURL("/images/projects-icon.png");
+  });
+}
+
 if (window.location.pathname.includes("/issues/")) {
   document.querySelectorAll(".js-site-favicon").forEach((icon) => {
     icon.href = chrome.runtime.getURL("/images/issues-icon.png");
