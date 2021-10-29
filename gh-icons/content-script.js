@@ -5,13 +5,14 @@ if (window.location.pathname == "/notifications") {
 }
 
 if (window.location.pathname.includes("/issues/")) {
-  if (window.location.pathname.includes("/career-journal/")) {
-    document.querySelectorAll(".js-site-favicon").forEach((icon) => {
-      icon.href = chrome.runtime.getURL("/images/career-journal-icon.png");
-    });
-  } else {
-    document.querySelectorAll(".js-site-favicon").forEach((icon) => {
-      icon.href = chrome.runtime.getURL("/images/issues-icon.png");
-    });
-  }
+  document.querySelectorAll(".js-site-favicon").forEach((icon) => {
+    icon.href = chrome.runtime.getURL("/images/issues-icon.png");
+  });
+}
+
+// NOTE: order-dependant, executing after the issues icon change will affect issues that are part of the career-journal
+if (window.location.pathname.includes("/jhunschejones/career-journal")) {
+  document.querySelectorAll(".js-site-favicon").forEach((icon) => {
+    icon.href = chrome.runtime.getURL("/images/career-journal-icon.png");
+  });
 }
