@@ -6,7 +6,7 @@
   "content_scripts": [{
     "js": ["content-script.js"],
     "matches": [
-      "https://github.com/notifications*"
+      "https://github.com/*"
     ]
   }],
   "host_permissions": [
@@ -14,7 +14,10 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": [ "/images/new-icon.png" ],
+      "resources": [
+        "/images/notifications-icon.png",
+        "/images/issues-icon.png"
+      ],
       "matches": [ "https://github.com/*" ]
     }
   ],
