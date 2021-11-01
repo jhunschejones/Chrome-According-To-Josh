@@ -1,0 +1,21 @@
+{
+  "name": "Zoom Cleanup",
+  "description": "Cleanup the extra tabs that Zoom leaves open",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts": [{
+    "js": ["content-script.js"],
+    "matches": [
+      "https://github.zoom.us/*"
+    ]
+  }],
+  "host_permissions": [
+    "https://github.zoom.us/*"
+  ],
+  "icons": {
+    "16": "/images/icon-16x16.png",
+    "32": "/images/icon-32x32.png",
+    "48": "/images/icon-192x192.png",
+    "128": "/images/icon-512x512.png"
+  }
+}
