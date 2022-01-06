@@ -13,12 +13,12 @@
   "commands": {
     "close-tabs-to-the-right": {
       "suggested_key": {
-        "default": "Shift+Alt+R",
-        "mac": "Shift+Alt+R"
+        "default": "Shift+Ctrl+R",
+        "mac": "Shift+Ctrl+R"
       },
       "description": "Close all tabs in the current window to the right of the current tab"
     }
-},
+  },
   "icons": {
     "16": "/images/icon-16x16.png",
     "32": "/images/icon-32x32.png",
