@@ -14,8 +14,7 @@
     "webNavigation"
   ],
   "host_permissions": [
-    "https://github.com/*/issues/*",
-    "https://github.com/*/pull/*"
+    "https://github.com/*"
   ],
   "icons": {
     "16": "/images/icon-16x16.png",
