@@ -17,6 +17,6 @@ As a friendly reminder, you should always read the code before loading an unpack
 ### Coding + more:
 * [`gh-new-tab`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/gh-new-tab): Adds a toggle-able extension to force README links on GitHub web pages to open in new tabs.
 * [`gh-icons`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/gh-icons): Set custom favicons for specific kinds GitHub features to better differentiate between pinned tabs.
-* [`gh-wide`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/gh-wide): Collapse the right-hand column in an Issue or PR for more horizontal viewing space
+* [`gh-wide`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/gh-wide): Collapse the right-hand column in supported GitHub UIs for more horizontal viewing space
 * [`zoom-cleanup`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/zoom-cleanup): A wee bit of JS to cleanup those pesky extra Zoom tabs after opening a meeting.
 * [`to-the-right-now-yall`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/to-the-right-now-yall): Close all tabs to the right of the current tab on a button click or keyboard shortcut.

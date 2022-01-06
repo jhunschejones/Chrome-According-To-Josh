@@ -1,6 +1,6 @@
 {
   "name": "GH Wide",
-  "description": "Collapse the right-hand column in an Issue or PR for more horizontal viewing space",
+  "description": "Collapse the right-hand column in supported GitHub UIs for more horizontal viewing space",
   "version": "1.0",
   "manifest_version": 3,
   "action": {},
@@ -16,6 +16,15 @@
   "host_permissions": [
     "https://github.com/*"
   ],
+  "commands": {
+    "toggle-gh-wide": {
+      "suggested_key": {
+        "default": "Shift+Ctrl+W",
+        "mac": "Shift+Ctrl+W"
+      },
+      "description": "Collapse or expand the right-hand column in supported GitHub UIs"
+    }
+  },
   "icons": {
     "16": "/images/icon-16x16.png",
     "32": "/images/icon-32x32.png",
