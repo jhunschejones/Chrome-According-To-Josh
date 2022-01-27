@@ -18,7 +18,8 @@
         "/images/notifications-icon.png",
         "/images/issues-icon.png",
         "/images/career-journal-icon.png",
-        "/images/projects-icon.png"
+        "/images/projects-icon.png",
+        "/images/projects-icon-dark.png"
       ],
       "matches": [ "https://github.com/*" ]
     }

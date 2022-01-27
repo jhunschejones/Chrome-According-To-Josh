@@ -6,7 +6,11 @@ if (window.location.pathname == "/notifications") {
 
 if (window.location.pathname.includes("/projects/")) {
   document.querySelectorAll(".js-site-favicon").forEach((icon) => {
-    icon.href = chrome.runtime.getURL("/images/projects-icon.png");
+    if (icon.type == "image/png") {
+      icon.href = chrome.runtime.getURL("/images/projects-icon.png");
+    } else {
+      icon.parentNode.removeChild(icon);
+    }
   });
 }
 
