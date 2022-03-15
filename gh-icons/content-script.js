@@ -5,13 +5,24 @@ if (window.location.pathname == "/notifications") {
 }
 
 if (window.location.pathname.includes("/projects/")) {
-  document.querySelectorAll(".js-site-favicon").forEach((icon) => {
-    if (icon.type == "image/png") {
-      icon.href = chrome.runtime.getURL("/images/projects-icon.png");
-    } else {
-      icon.parentNode.removeChild(icon);
-    }
-  });
+  // custom styling for my personal project board
+  if (window.location.pathname.includes("/github/projects/5488")) {
+    document.querySelectorAll(".js-site-favicon").forEach((icon) => {
+      if (icon.type == "image/png") {
+        icon.href = chrome.runtime.getURL("/images/to-do-list.png");
+      } else {
+        icon.parentNode.removeChild(icon);
+      }
+    });
+  } else {
+    document.querySelectorAll(".js-site-favicon").forEach((icon) => {
+      if (icon.type == "image/png") {
+        icon.href = chrome.runtime.getURL("/images/projects-icon.png");
+      } else {
+        icon.parentNode.removeChild(icon);
+      }
+    });
+  }
 }
 
 if (window.location.pathname.includes("/issues/")) {

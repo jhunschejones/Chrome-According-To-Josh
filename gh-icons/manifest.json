@@ -19,7 +19,8 @@
         "/images/issues-icon.png",
         "/images/career-journal-icon.png",
         "/images/projects-icon.png",
-        "/images/projects-icon-dark.png"
+        "/images/projects-icon-dark.png",
+        "/images/to-do-list.png"
       ],
       "matches": [ "https://github.com/*" ]
     }
