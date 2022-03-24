@@ -1,16 +1,15 @@
 function makeDownloadLinkFromAudioSource(audioSourceElement) {
   const audioClipNumber = audioSourceElement.src.split("/").slice(-1)[0].split("=").slice(-1)[0].split(".")[0];
   const a = document.createElement("a");
-  if (audioSourceElement.src.includes(".php")) {
-    a.appendChild(document.createTextNode("👴🏻"));
-    a.title = "Download";
-    a.ariaLabel = "Download";
-  } else {
-    a.appendChild(document.createTextNode("💾"));
-    a.title = "Download or copy";
-    a.ariaLabel = "Download or copy";
-  }
+  a.appendChild(document.createTextNode("💾"));
+  a.title = "Download or copy";
+  a.ariaLabel = "Download or copy";
   a.href = audioSourceElement.src;
+  if (!a.href.endsWith(".mp3")) {
+  // 💁🏼 The `fileFormatForAnkiDownload` query param is only in this URL to activate Anki's
+  // auto-download feature, it is not required to build a valid audio link.
+    a.href = `${a.href}&fileFormatForAnkiDownload=.mp3`;
+  }
   a.download = audioClipNumber + ".mp3";
   a.target = "_blank"; // point the link at a new window in case it's clicked
   a.style.userSelect = "none";
