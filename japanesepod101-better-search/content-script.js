@@ -1,4 +1,22 @@
 if (window.location.pathname == "/japanese-dictionary/") {
+
+  // If there's a banner on the page, try to remove it
+  try {
+    const xpath = "//p[starts-with(text(),'Start Learning Japanese')]";
+    const banner = document
+      .evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null)
+      .singleNodeValue
+      .parentElement
+      .parentElement
+      .parentElement
+      .parentElement
+      .parentElement
+      .parentElement;
+    banner.parentNode.removeChild(banner);
+  } catch (error) {
+    console.log("Unable to find banner to remove");
+  }
+
   // If we're on the ditionary page and a search was passed in, execute it
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get("search")) {
