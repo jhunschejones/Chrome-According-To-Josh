@@ -1,5 +1,12 @@
 if (window.location.pathname == "/japanese-dictionary/") {
 
+  // If there's a signup modal, close it
+  try {
+    document.querySelector(".lightBox-signup-header-close").click();
+  } catch (error) {
+    console.log("No removable modal found");
+  }
+
   // If there's a banner on the page, try to remove it
   try {
     const xpath = "//p[starts-with(text(),'Start Learning Japanese')]";
@@ -14,7 +21,7 @@ if (window.location.pathname == "/japanese-dictionary/") {
       .parentElement;
     banner.parentNode.removeChild(banner);
   } catch (error) {
-    console.log("Unable to find banner to remove");
+    console.log("No removable banner found");
   }
 
   // If we're on the ditionary page and a search was passed in, execute it
