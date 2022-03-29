@@ -14,6 +14,7 @@ As a friendly reminder, you should always read the code before loading an unpack
 * [`save-audio-forvo`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/save-audio-forvo): Bringing a little more HTML to the world of JavaScript audio files, this time on forvo.com.
 * [`save-audio-jisho`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/save-audio-jisho): Bringing a little more HTML to the world of JavaScript audio files, this time on jisho.org.
 * [`japanesepod101-better-search`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/japanesepod101-better-search): Improving the programatic search capabilities of the dictionary and Core word list tools on japanesepod101.com.
+* [`clean-copy`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/clean-copy): Copy without formatting on select Japanese language learning sites.
 
 ### Coding + more:
 * [`gh-new-tab`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/gh-new-tab): Adds a toggle-able extension to force README links on GitHub web pages to open in new tabs.

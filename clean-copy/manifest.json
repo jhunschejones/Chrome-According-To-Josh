@@ -1,0 +1,25 @@
+{
+  "name": "Clean Copy",
+  "description": "Easily copy text without it's formatting",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts": [{
+    "js": ["content-script.js"],
+    "matches": [
+      "https://www.japandict.com/*",
+      "https://tatoeba.org/*",
+      "https://jisho.org/*"
+    ]
+  }],
+  "host_permissions": [
+    "https://www.japandict.com/*",
+    "https://tatoeba.org/*",
+    "https://jisho.org/*"
+  ],
+  "icons": {
+    "16": "/images/icon-16x16.png",
+    "32": "/images/icon-32x32.png",
+    "48": "/images/icon-192x192.png",
+    "128": "/images/icon-512x512.png"
+  }
+}
