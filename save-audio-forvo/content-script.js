@@ -37,9 +37,14 @@ Array.from(
   e => makeDownloadLinkFromAudioSource(e)
 );
 
-// I mean... might as well clean up adds layout while we're in here
+// Clean up UI to remove unneded sections
 document.querySelector(".main_aside").style.display = "none";
-document.querySelector(".mainpage").style.paddingRight = "0px";
+document.querySelector(".sidebar-language").style.display = "none";
+document.querySelector(".page_word").style.justifyContent = "center";
+document.querySelector(".main_section").style.paddingRight = "0px";
+document.querySelector(".main_section").style.width = "fit-content";
+
+// I mean... might as well clean up adds layout while we're in here
 Array.from(
   document.querySelectorAll("div.ad"),
   e => { e.style.display = "none"; }
