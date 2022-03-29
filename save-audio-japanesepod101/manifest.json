@@ -5,6 +5,7 @@
   "manifest_version": 3,
   "content_scripts": [{
     "js": ["content-script.js"],
+    "css": ["tooltip.css"],
     "matches": [
       "https://www.japanesepod101.com/japanese-dictionary/*",
       "https://www.japanesepod101.com/japanese-word-lists/*"

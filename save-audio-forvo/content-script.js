@@ -14,6 +14,22 @@ function makeDownloadLinkFromAudioSource(audioSourceElement) {
   a.style.textDecoration = "none";
 
   audioSourceElement.parentElement.appendChild(a);
+
+  // Build and add tooltip that will appear after click
+  const tooltip = document.createElement("span");
+  tooltip.appendChild(document.createTextNode("Coppied!"));
+  tooltip.classList.add("tooltip-text");
+  a.classList.add("tooltip-target");
+  a.appendChild(tooltip);
+
+  // Copy-on-click functionality
+  a.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    navigator.clipboard.writeText(a.href);
+    tooltip.classList.toggle("show", true);
+    setTimeout(() => { tooltip.classList.toggle("show", false); }, 2000);
+  });
 }
 
 Array.from(

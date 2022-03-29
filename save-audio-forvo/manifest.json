@@ -5,6 +5,7 @@
   "manifest_version": 3,
   "content_scripts": [{
     "js": ["content-script.js"],
+    "css": ["tooltip.css"],
     "matches": ["https://forvo.com/word/*"]
   }],
   "host_permissions": [
