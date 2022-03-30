@@ -24,6 +24,25 @@ if (window.location.pathname == "/japanese-dictionary/") {
     console.log("No removable banner found");
   }
 
+  // If there's a free trial link, try to remove it
+  try {
+    // Remove the free trial link from the top menu
+    const freeTrialLink = document.querySelector("a.dashbar-a__free-trial");
+    const freeTrialMenuBlock = freeTrialLink.parentNode.parentNode;
+    freeTrialMenuBlock.parentNode.removeChild(freeTrialMenuBlock);
+
+    // Float the login button right
+    const signInLink = document.querySelector("a.dashbard-a__sign-in");
+    const signInMenueBlock = signInLink.parentNode.parentNode;
+    signInMenueBlock.style.float = "right";
+
+    // Remove the features block below the results
+    const featuresBlock = document.querySelector(".dc-features-box");
+    featuresBlock.parentNode.removeChild(featuresBlock);
+  } catch (error) {
+    console.log("No free trial link found")
+  }
+
   // If we're on the ditionary page and a search was passed in, execute it
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get("search")) {
