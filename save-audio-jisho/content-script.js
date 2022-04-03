@@ -18,7 +18,7 @@ function makeDownloadLinkFromAudioSource(audioSourceElement) {
 
   // Build and add tooltip that will appear after click
   const tooltip = document.createElement("span");
-  tooltip.appendChild(document.createTextNode("Coppied!"));
+  tooltip.appendChild(document.createTextNode("Copied!"));
   tooltip.classList.add("tooltip-text");
   a.classList.add("tooltip-target");
   a.appendChild(tooltip);
