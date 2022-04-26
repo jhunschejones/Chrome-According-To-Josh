@@ -41,11 +41,23 @@ function makeDownloadLinkFromAudioSource(audioSourceElement) {
 function reactToNewResults() {
   // Add the new download buttons to the DOM
   setTimeout(function() {
-    Array.from(
-      document.querySelectorAll('audio:not([data-speed="0.5"]) source'),
-      e => makeDownloadLinkFromAudioSource(e)
-    );
-  }, 500);
+    console.log("First try");
+    if (document.querySelectorAll('audio:not([data-speed="0.5"]) source').length == 0) {
+      // If the DOM is slow, give it another shot
+      setTimeout(function() {
+        console.log("Second try");
+        Array.from(
+          document.querySelectorAll('audio:not([data-speed="0.5"]) source'),
+          e => makeDownloadLinkFromAudioSource(e)
+        );
+      }, 1600);
+    } else {
+      Array.from(
+        document.querySelectorAll('audio:not([data-speed="0.5"]) source'),
+        e => makeDownloadLinkFromAudioSource(e)
+      );
+    }
+  }, 800);
 
   // Watch any new pagination buttons
   setTimeout(function() {
