@@ -1,5 +1,10 @@
+function insertAfter(newNode, existingNode) {
+  existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
+}
+
 function makeDownloadLinkFromAudioSource(audioSourceElement) {
   const audioClipName = audioSourceElement.dataset.src.split("/").reverse()[1];
+
   const a = document.createElement("a");
   a.appendChild(document.createTextNode("💾"));
   a.title = "Download or copy";
@@ -9,8 +14,13 @@ function makeDownloadLinkFromAudioSource(audioSourceElement) {
   a.target = "_blank"; // point the link at a new window in case it's clicked
   a.style.userSelect = "none";
   a.style.textDecoration = "none";
+  a.classList.add("save-link");
 
-  audioSourceElement.parentElement.appendChild(a);
+  const td = document.createElement("td");
+  td.appendChild(a);
+  td.style.width = "36px";
+  audioSourceElement.parentElement.style.width = "36px"; // set play button td width to match
+  insertAfter(td, audioSourceElement.parentElement); // add our td after the play button td
 
   // Build and add tooltip that will appear after click
   const tooltip = document.createElement("span");
@@ -29,12 +39,29 @@ function makeDownloadLinkFromAudioSource(audioSourceElement) {
   });
 }
 
-// Tabs go in this order:
-// Kanji, English, Romaji, Hiragana, All
-const tabNumbers = ["00", "01", "02", "03", "all_0"];
-tabNumbers.forEach(tabNumber => {
-  Array.from(
-    document.querySelectorAll(`#dialogue_panel_${tabNumber} button[title="Play"]`),
-    e => makeDownloadLinkFromAudioSource(e)
-  );
+function buildSavedButtons() {
+  // Tabs go in this order:
+  // Kanji, English, Romaji, Hiragana, All
+  const tabNumbers = ["00", "01", "02", "03", "all_0"];
+  tabNumbers.forEach(tabNumber => {
+    Array.from(
+      document.querySelectorAll(`#dialogue_panel_${tabNumber} button[title="Play"]`),
+      e => makeDownloadLinkFromAudioSource(e)
+    );
+  });
+}
+
+buildSavedButtons();
+
+document.querySelector('[aria-label="Next Lesson"]').addEventListener("click", () => {
+  // Wait for JS to run
+  setTimeout(() => {
+    buildSavedButtons();
+  }, 600);
+});
+document.querySelector('[aria-label="Previous Lesson"]').addEventListener("click", () => {
+  // Wait for JS to run
+  setTimeout(() => {
+    buildSavedButtons();
+  }, 600);
 });
