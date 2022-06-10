@@ -14,6 +14,7 @@ As a friendly reminder, you should always read the code before loading an unpack
 * [`save-audio-forvo`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/save-audio-forvo): Bringing a little more HTML to the world of JavaScript audio files, this time on forvo.com.
 * [`save-audio-jisho`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/save-audio-jisho): Bringing a little more HTML to the world of JavaScript audio files, this time on jisho.org.
 * [`japanesepod101-better-search`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/japanesepod101-better-search): Improving the programatic search capabilities of the dictionary and Core word list tools on japanesepod101.com.
+* [`japanesepod101-sentence-mining`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/japanesepod101-sentence-mining): Making it easier to copy audio from lesson dialogs on japanesepod101com.
 * [`clean-copy`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/clean-copy): Copy without formatting on select Japanese language learning sites.
 
 ### Coding + more:
