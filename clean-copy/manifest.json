@@ -8,13 +8,15 @@
     "matches": [
       "https://www.japandict.com/*",
       "https://tatoeba.org/*",
-      "https://jisho.org/*"
+      "https://jisho.org/*",
+      "https://www.japanesepod101.com/*"
     ]
   }],
   "host_permissions": [
     "https://www.japandict.com/*",
     "https://tatoeba.org/*",
-    "https://jisho.org/*"
+    "https://jisho.org/*",
+    "https://www.japanesepod101.com/*"
   ],
   "icons": {
     "16": "/images/icon-16x16.png",
