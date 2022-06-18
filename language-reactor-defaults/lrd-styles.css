@@ -1,4 +1,4 @@
 /* hide translations on the bottom of the page */
 .translationText {
-  visibility: hidden;
+  display: none;
 }
