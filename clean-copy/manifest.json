@@ -9,14 +9,16 @@
       "https://www.japandict.com/*",
       "https://tatoeba.org/*",
       "https://jisho.org/*",
-      "https://www.japanesepod101.com/*"
+      "https://www.japanesepod101.com/*",
+      "https://www.youtube.com/*"
     ]
   }],
   "host_permissions": [
     "https://www.japandict.com/*",
     "https://tatoeba.org/*",
     "https://jisho.org/*",
-    "https://www.japanesepod101.com/*"
+    "https://www.japanesepod101.com/*",
+    "https://www.youtube.com/*"
   ],
   "icons": {
     "16": "/images/icon-16x16.png",
