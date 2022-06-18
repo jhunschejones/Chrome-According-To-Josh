@@ -1,0 +1,24 @@
+{
+  "name": "Language Reactor defaults",
+  "description": "Setting sensible defaults for language reactor",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts": [{
+    "js": ["content-script.js"],
+    "css": ["lrd-styles.css"],
+    "matches": [
+      "https://www.netflix.com/*",
+      "https://www.youtube.com/*"
+    ]
+  }],
+  "host_permissions": [
+    "https://www.netflix.com/*",
+    "https://www.youtube.com/*"
+  ],
+  "icons": {
+    "16": "/images/icon-16x16.png",
+    "32": "/images/icon-32x32.png",
+    "48": "/images/icon-192x192.png",
+    "128": "/images/icon-512x512.png"
+  }
+}
