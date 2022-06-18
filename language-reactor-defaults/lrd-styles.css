@@ -1,4 +1,4 @@
 /* hide translations on the bottom of the page */
-.translationText {
+.translationText, #lln-translations {
   display: none;
 }
