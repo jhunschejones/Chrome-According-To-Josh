@@ -2,12 +2,11 @@ document.addEventListener("copy", (event) => {
   const selection = document.getSelection();
   let textToCopy = selection.toString().trim();
 
-  if (["https://jisho.org", "https://www.youtube.com"].includes(window.location.origin)) {
+  // Strip line breaks and remove odd index words
+  if (["https://jisho.org"].includes(window.location.origin)) {
     // Sentences on jisho.org include furigana which coppies to the clipboard with
     // extra line breaks. If we're on that site, try to remove the furigana and
     // extra line breaks.
-    //
-    // When running language reactor on YouTube, the same thing applies.
     const lineBreaks = /(\r\n|\n|\r)/gm;
     textToCopy = textToCopy
       .split(lineBreaks)
