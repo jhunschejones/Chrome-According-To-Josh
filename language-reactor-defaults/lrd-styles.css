@@ -1,4 +1,9 @@
-/* hide translations on the bottom of the page */
+/* hide translations on the bottom of the screen */
 .translationText, #lln-translations {
   display: none;
+}
+
+/* we can now lower the entire subs container on the screen */
+#lln-subs-content {
+  margin-bottom: -50px;
 }
