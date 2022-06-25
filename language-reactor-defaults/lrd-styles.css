@@ -2,8 +2,3 @@
 .translationText, #lln-translations {
   display: none;
 }
-
-/* we can now lower the entire subs container on the screen */
-#lln-subs-content {
-  margin-bottom: -50px;
-}
