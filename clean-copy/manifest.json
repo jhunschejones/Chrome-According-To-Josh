@@ -10,7 +10,8 @@
       "https://tatoeba.org/*",
       "https://jisho.org/*",
       "https://www.japanesepod101.com/*",
-      "https://www.languagereactor.com/*"
+      "https://www.languagereactor.com/*",
+      "https://www.satorireader.com/*"
     ]
   }],
   "host_permissions": [
@@ -18,7 +19,8 @@
     "https://tatoeba.org/*",
     "https://jisho.org/*",
     "https://www.japanesepod101.com/*",
-    "https://www.languagereactor.com/*"
+    "https://www.languagereactor.com/*",
+    "https://www.satorireader.com/*"
   ],
   "icons": {
     "16": "/images/icon-16x16.png",

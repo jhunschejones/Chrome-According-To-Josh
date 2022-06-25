@@ -1,3 +1,5 @@
+console.log("Clean copy extension loaded.");
+
 document.addEventListener("copy", (event) => {
   const selection = document.getSelection();
   let textToCopy = selection.toString().trim();
