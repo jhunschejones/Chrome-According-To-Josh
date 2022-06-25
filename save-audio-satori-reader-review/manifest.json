@@ -1,0 +1,20 @@
+{
+  "name": "Save Audio Satori Reader Review",
+  "description": "Bringing a little more HTML to the world of JavaScript audio files, this time on the review page for Satori Reader",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts": [{
+    "js": ["content-script.js"],
+    "css": ["tooltip.css"],
+    "matches": ["https://www.satorireader.com/review/browse/*"]
+  }],
+  "host_permissions": [
+    "https://www.satorireader.com/review/browse/*"
+  ],
+  "icons": {
+    "16": "/images/icon-16x16.png",
+    "32": "/images/icon-32x32.png",
+    "48": "/images/icon-192x192.png",
+    "128": "/images/icon-512x512.png"
+  }
+}
