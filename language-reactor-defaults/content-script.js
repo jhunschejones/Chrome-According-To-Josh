@@ -1,8 +1,11 @@
-// Wait a generous amount of time for language reactor to load
+// Wait for language reactor extension to load after page load
 setTimeout(() => {
-
-  // Hide hover translations in side panel by default
-  document.querySelector("#lln-v-sub-hover-translation").style.display = "none";
+  try {
+    // Hide hover translations in side panel by default
+    document.querySelector("#lln-v-sub-hover-translation").style.display = "none";
+  } catch {
+    console.warn("Unable to find hover translations element in side pannel");
+  }
 
   // Clean copy subtitles without furigana
   (() => {
@@ -32,4 +35,4 @@ setTimeout(() => {
     });
   })();
 
-}, 3000);
+}, 5000);
