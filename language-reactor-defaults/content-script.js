@@ -1,12 +1,5 @@
 // Wait for language reactor extension to load after page load
 setTimeout(() => {
-  try {
-    // Hide hover translations in side panel by default
-    document.querySelector("#lln-v-sub-hover-translation").style.display = "none";
-  } catch {
-    console.warn("Unable to find hover translations element in side pannel");
-  }
-
   // Clean copy subtitles without furigana
   (() => {
     document.addEventListener("copy", (event) => {

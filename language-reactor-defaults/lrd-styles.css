@@ -2,3 +2,8 @@
 .translationText, #lln-translations {
   display: none;
 }
+
+/* Hide hover translations in side panel by default */
+#lln-v-sub-hover-translation {
+  display: none;
+}
