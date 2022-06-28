@@ -23,3 +23,5 @@ If you wish to toggle translations in the side, subtitles panel, you can create 
 // As a bookmarklet
 javascript:((() => { var sideTranslation = document.querySelector("#lln-v-sub-hover-translation"); if (sideTranslation.style.display == "none" || sideTranslation.style.display == "") { sideTranslation.style.display = "block"; } else { sideTranslation.style.display = "none"; } })())
 ```
+
+Or simply use the `command + e` keyboard shortcut!
