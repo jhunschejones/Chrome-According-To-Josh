@@ -1,4 +1,4 @@
 # Clean Copy
 
 ### Description
-While honing the process of making flashcards in Anki for my Japanese language study, I found a few sites that were hard to copy text from as they have a significant amount of styling that comes with by default. This extension simply copies the selected text without formatting or trailing spaces to speed up a step in my workflow. 🎉
+While creating language learning flashcards in Anki, I found there were several sites that included a bit of CSS or other nonsense when I tried to copy a word or a sentence. This extension resolves that issue by stripping the formatting from the text selection on these sites so that you just get the plain text on your clipboard.
