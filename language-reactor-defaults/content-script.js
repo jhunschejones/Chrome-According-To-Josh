@@ -19,17 +19,12 @@
 
       if (keyboardShortcuts.keysPressed["command"] && keyboardShortcuts.keysPressed["e"]) {
         e.preventDefault();
+        return keyboardShortcuts.toggleSideTranslations();
+      }
 
-        const sideTranslation = document.querySelector("#lln-v-sub-hover-translation");
-        if (!sideTranslation) {
-          return console.log("#lln-v-sub-hover-translation not found");
-        }
-
-        if (sideTranslation.style.display == "none" || sideTranslation.style.display == "") {
-          return sideTranslation.style.display = "block";
-        } else {
-          return sideTranslation.style.display = "none";
-        }
+      if (keyboardShortcuts.keysPressed["command"] && keyboardShortcuts.keysPressed["b"]) {
+        e.preventDefault();
+        return keyboardShortcuts.toggleBottomTranslations();
       }
     },
     reset: () => {
@@ -41,6 +36,39 @@
       keyboardShortcuts.shortcutTimeout = setTimeout(() => {
         keyboardShortcuts.parseKeyboardShortcuts(e);
       }, 100);
+    },
+    toggleSideTranslations: () => {
+      const sideTranslation = document.querySelector("#lln-v-sub-hover-translation");
+      if (!sideTranslation) {
+        return console.log("#lln-v-sub-hover-translation not found");
+      }
+
+      if (sideTranslation.style.display == "none" || sideTranslation.style.display == "") {
+        return sideTranslation.style.display = "block";
+      } else {
+        return sideTranslation.style.display = "none";
+      }
+    },
+    toggleBottomTranslations: () => {
+      const bottomTranslationsContainer = document.querySelector("#lln-translations");
+      const bottomTranslationText = document.querySelector(".translationText");
+      if (!bottomTranslationsContainer) {
+        return console.log("#lln-translations not found");
+      }
+      if (!bottomTranslationText) {
+        return console.log(".translationText not found");
+      }
+
+      if (bottomTranslationsContainer.style.display == "none" || bottomTranslationsContainer.style.display == "") {
+        bottomTranslationsContainer.style.display = "block";
+        bottomTranslationText.style.display = "block";
+        bottomTranslationText.style.filter = "none"; // remove blur filter
+        return;
+      } else {
+        bottomTranslationsContainer.style.display = "none";
+        bottomTranslationText.style.display = "none";
+        return;
+      }
     },
   }
 
