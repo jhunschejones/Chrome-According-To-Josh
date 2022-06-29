@@ -3,13 +3,19 @@ console.log("Clean copy extension loaded.");
 document.addEventListener("copy", (event) => {
   let textToCopy;
 
-  // Sentences on jisho.org include furigana which coppies to the clipboard with
-  // extra line breaks. If we're on that site, try to remove the furigana and
+  // Sentences on some sites include furigana which coppies to the clipboard with
+  // extra line breaks. If we're on these sites, try to remove the furigana and
   // extra line breaks.
-  if (["https://jisho.org"].includes(window.location.origin)) {
+  if (
+      [
+      "https://jisho.org",
+      "https://www.languagereactor.com",
+      "https://www.satorireader.com"
+    ].includes(window.location.origin)
+    ) {
 
     // 1. Hide furigana
-    const furigana = document.querySelectorAll(".furigana");
+    const furigana = document.querySelectorAll(".furigana, .dc-hiragana, .fg");
     if (furigana[0]) {
       Array.from(furigana, (f) => { f.style.display = "none" });
     }
