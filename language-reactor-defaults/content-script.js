@@ -17,8 +17,9 @@
           keyboardShortcuts.keysPressed[e.key.toLowerCase()] = true;
       }
 
-      if (keyboardShortcuts.keysPressed["command"] && keyboardShortcuts.keysPressed["e"]) {
+      if (keyboardShortcuts.keysPressed["command"] && keyboardShortcuts.keysPressed["s"]) {
         e.preventDefault();
+        e.stopPropagation(); // don't proceed with default handlers
         return keyboardShortcuts.toggleSideTranslations();
       }
 
