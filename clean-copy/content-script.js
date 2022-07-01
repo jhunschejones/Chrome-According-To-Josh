@@ -15,7 +15,7 @@ document.addEventListener("copy", (event) => {
     ) {
 
     // 1. Hide furigana
-    const furigana = document.querySelectorAll(".furigana, .dc-hiragana, .fg");
+    const furigana = document.querySelectorAll(".furigana, .dc-hiragana, .fg, rt");
     if (furigana[0]) {
       Array.from(furigana, (f) => { f.style.display = "none" });
     }
