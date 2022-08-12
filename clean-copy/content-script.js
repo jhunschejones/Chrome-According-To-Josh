@@ -3,7 +3,7 @@ console.log("Clean copy extension loaded.");
 document.addEventListener("copy", (event) => {
   let textToCopy;
 
-  // Sentences on some sites include furigana which coppies to the clipboard with
+  // Sentences on some sites include furigana which copies to the clipboard with
   // extra line breaks. If we're on these sites, try to remove the furigana and
   // extra line breaks.
   if (
