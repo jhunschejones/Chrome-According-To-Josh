@@ -37,3 +37,10 @@ if (window.location.pathname.includes("/jhunschejones/career-journal")) {
     icon.href = chrome.runtime.getURL("/images/career-journal-icon.png");
   });
 }
+
+// Custom icon for issues I've commented on that have been updated view
+if (window.location.pathname == "/issues" && window.location.search == "?q=is%3Aopen+is%3Aissue+org%3Agithub+commenter%3A%40me+sort%3Aupdated-desc+") {
+  document.querySelectorAll(".js-site-favicon").forEach((icon) => {
+    icon.href = chrome.runtime.getURL("/images/issues-ive-commented-on.png");
+  });
+}

@@ -20,7 +20,8 @@
         "/images/career-journal-icon.png",
         "/images/projects-icon.png",
         "/images/projects-icon-dark.png",
-        "/images/to-do-list.png"
+        "/images/to-do-list.png",
+        "images/issues-ive-commented-on.png"
       ],
       "matches": [ "https://github.com/*" ]
     }
