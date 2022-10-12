@@ -1,4 +1,5 @@
 const getPermission = () => {
+  // borrowed from https://foosoft.net/projects/anki-connect/
   return new Promise((resolve, reject) => {
     const action = "requestPermission";
     const version = 6;
@@ -7,15 +8,6 @@ const getPermission = () => {
     xhr.addEventListener("load", () => {
       try {
         const response = JSON.parse(xhr.responseText);
-        if (Object.getOwnPropertyNames(response).length != 2) {
-          throw "response has an unexpected number of fields";
-        }
-        if (!response.hasOwnProperty("error")) {
-          throw "response is missing required error field";
-        }
-        if (!response.hasOwnProperty("result")) {
-          throw "response is missing required result field";
-        }
         if (response.error) {
           alert(response.error);
           reject(response.error);
@@ -67,7 +59,7 @@ const addNote = (params={}) => {
 
 // Wait for remote data request and page load
 setTimeout(async () => {
-  // await getPermission();
+  await getPermission();
 
   Array.from(document.querySelectorAll(".review-card")).forEach((reviewCard) => {
     const targetWordTranslation = reviewCard.querySelector(".review-card-back").innerText;
@@ -113,7 +105,7 @@ setTimeout(async () => {
         ).then(() => {
           tooltip.classList.toggle("show", true);
           setTimeout(() => { tooltip.classList.toggle("show", false); }, 2000);
-        }).catch((error) => {
+        }).catch((_error) => {
           // console.warn(error);
         })
       });
