@@ -73,10 +73,10 @@ const addButtons = () => {
       document.body.click();
 
       // hide readings so they don't show up in cards
-      Array.from(article.querySelectorAll(".fg, .wpr")).map((reading) => reading.display = "hidden")
+      Array.from(article.querySelectorAll(".fg, .wpr")).map((reading) => reading.style.visibility = "hidden");
 
       const targetWord = article.querySelector(".sentence .emphasis").innerText;
-      const japaneseSentence = article.querySelector(".sentence [data-type='run']").innerText;
+      const japaneseSentence = article.querySelector(".sentence [data-type='run']").innerText.replace(/\n/g, "");
       const englishSentence = article.querySelector(".discussion").innerText;
 
       const addToAnkiButton = document.createElement("button");
@@ -97,7 +97,7 @@ const addButtons = () => {
               "modelName": "Japanese 2022 Sentence Card",
               "fields": {
                 "Sentence": japaneseSentence,
-                "Sentence Reading": japaneseSentence.replace(targetWord, `<span style="color: rgb(0, 124, 255);">${targetWord}</span>`),
+                "Sentence Reading": japaneseSentence.replace(new RegExp(targetWord, "g"), `<span style="color: rgb(0, 124, 255);">${targetWord}</span>`),
                 "Bilingual Definition": `${targetWordTranslation};<br><i>${englishSentence}</i>`,
                 "Kanji Diagram Source": targetWord,
               },
