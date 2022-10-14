@@ -57,15 +57,17 @@ const addNote = (params={}) => {
   });
 };
 
-// Wait for remote data request and page load
-setTimeout(async () => {
-  await getPermission();
-
+const addButtons = () => {
   Array.from(document.querySelectorAll(".review-card")).forEach((reviewCard) => {
     const targetWordTranslation = reviewCard.querySelector(".review-card-back").innerText;
 
     // a word can have multiple contexts, map through each
     Array.from(reviewCard.querySelectorAll(".review-card-example-sentences-article-container .article")).forEach((article) => {
+      const buttonAlreadyExists = article.querySelector(".add-to-anki-button");
+      if (buttonAlreadyExists) {
+        return;
+      }
+
       // click to expand tooltip and load remote content for each sentence in card
       article.querySelector(".sentence .notes-button").click();
       document.body.click();
@@ -113,4 +115,32 @@ setTimeout(async () => {
       article.appendChild(addToAnkiButton);
     });
   });
+
+  // Load buttons for page navigation
+  listenForPageNavigation();
+};
+
+const listenForPageNavigation = () => {
+  Array.from(document.querySelectorAll(".review-card-browser-next")).forEach((button) => {
+    button.addEventListener("click", () => {
+      setTimeout(() => {
+        addButtons();
+      }, 2500);
+    });
+  });
+
+  Array.from(document.querySelectorAll(".review-card-browser-previous")).forEach((button) => {
+    button.addEventListener("click", () => {
+      setTimeout(() => {
+        addButtons();
+      }, 2500);
+    });
+  });
+};
+
+
+// Wait for remote data request and initial page load
+setTimeout(async () => {
+  // await getPermission();
+  addButtons();
 }, 3000);
