@@ -75,7 +75,7 @@ const addButtons = () => {
       // hide readings so they don't show up in cards
       Array.from(article.querySelectorAll(".fg, .wpr")).map((reading) => reading.style.visibility = "hidden");
 
-      const targetWord = article.querySelector(".sentence .emphasis").innerText;
+      const targetWord = Array.from(article.querySelectorAll(".sentence .emphasis")).map((wordBit) => wordBit.innerText).join("");
       const japaneseSentence = article.querySelector(".sentence [data-type='run']").innerText.replace(/\n/g, "");
       const englishSentence = article.querySelector(".discussion").innerText;
 
