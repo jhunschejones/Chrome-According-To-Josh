@@ -58,6 +58,9 @@ const addNote = (params={}) => {
 };
 
 const addButtons = () => {
+  // turn on all furigana to get readings
+  document.querySelector("#article-controls-furigana-all-label").click();
+
   Array.from(document.querySelectorAll(".review-card")).forEach((reviewCard) => {
     const targetWordTranslation = reviewCard.querySelector(".review-card-back").innerText;
 
@@ -72,10 +75,26 @@ const addButtons = () => {
       article.querySelector(".sentence .notes-button").click();
       document.body.click();
 
-      // hide readings so they don't show up in cards
+      // hide extra readings so they don't show up in cards
       Array.from(article.querySelectorAll(".fg, .wpr")).map((reading) => reading.style.visibility = "hidden");
 
-      const targetWord = Array.from(article.querySelectorAll(".sentence .emphasis")).map((wordBit) => wordBit.innerText).join("");
+      const targetWord = Array.from(article.querySelectorAll(".sentence .emphasis"))
+        .map((wordBit) => {
+          // remove newlines
+          return wordBit.innerText.split("\n").join("");
+        })
+        .join("");
+      const targetWordWithReading = Array.from(article.querySelectorAll(".sentence .emphasis .wp"))
+        .map((wordBit) => {
+          const wordCharacterChunk = wordBit.querySelector(".wpt").textContent;
+          const reading = wordBit.querySelector(".fg")?.textContent;
+          if (reading) {
+            return `${wordCharacterChunk}[${reading}]`;
+          } else {
+            return wordCharacterChunk;
+          }
+        })
+        .join("");
       const japaneseSentence = article.querySelector(".sentence [data-type='run']").innerText.replace(/\n/g, "");
       const englishSentence = article.querySelector(".discussion").innerText;
 
@@ -97,7 +116,7 @@ const addButtons = () => {
               "modelName": "Japanese 2022 Sentence Card",
               "fields": {
                 "Sentence": japaneseSentence,
-                "Sentence Reading": japaneseSentence.replace(new RegExp(targetWord, "g"), `<span style="color: rgb(0, 124, 255);">${targetWord}</span>`),
+                "Sentence Reading": japaneseSentence.replace(new RegExp(targetWord, "g"), `<span style="color: rgb(0, 124, 255);">${targetWordWithReading}</span>`),
                 "Bilingual Definition": `${targetWordTranslation};<br><i>${englishSentence}</i>`,
                 "Kanji Diagram Source": targetWord,
               },
