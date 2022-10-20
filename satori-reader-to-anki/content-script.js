@@ -29,7 +29,12 @@ const addNote = (params={}) => {
     const action = "addNote";
     const version = 6;
     const xhr = new XMLHttpRequest();
-    xhr.addEventListener("error", () => reject("failed to issue request"));
+    xhr.addEventListener("error", () => {
+      if (xhr.readyState == 4 && xhr.status == 0) {
+        alert("Unknown Error Occured. Server response not received. Is Anki Connect running?");
+      }
+      reject("failed to issue request");
+    });
     xhr.addEventListener("load", () => {
       try {
         const response = JSON.parse(xhr.responseText);
@@ -105,8 +110,11 @@ const addButtons = () => {
       const tooltip = document.createElement("span");
       tooltip.appendChild(document.createTextNode("Added!"));
       tooltip.classList.add("tooltip-text");
-      addToAnkiButton.classList.add("tooltip-target");
-      addToAnkiButton.appendChild(tooltip);
+      const container = document.createElement("div");
+      container.classList.add("tooltip-target");
+      container.appendChild(addToAnkiButton);
+      container.appendChild(tooltip);
+      article.appendChild(container);
 
       addToAnkiButton.addEventListener("click", () => {
         addNote(
@@ -130,8 +138,6 @@ const addButtons = () => {
           // console.warn(error);
         })
       });
-
-      article.appendChild(addToAnkiButton);
     });
   });
 
