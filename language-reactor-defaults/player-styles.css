@@ -1,0 +1,21 @@
+/* Hide english translation column in right-hand sentence table */
+/* (can just use "hide translations" toggle at the top of the screen) */
+/* div.sentence-wrap ~ div[class^='jss']:lang(en) {
+  display: none;
+} */
+
+/* Expand the sentence to the full width */
+/* (can just use "hide translations" toggle at the top of the screen) */
+/* div.sentence-wrap {
+  width: 100% !important;
+} */
+
+/* Hide english translation under video screen */
+div.sentence-wrap-main ~ div>span:lang(en) {
+  display: none;
+}
+
+/* Hide popup translations but leave keyboard shortcuts popup working */
+script ~ div[role=tooltip]:not([data-popper-placement="bottom-end"]) {
+  display: none !important;
+}

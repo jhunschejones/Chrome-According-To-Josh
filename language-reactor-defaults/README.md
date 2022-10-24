@@ -6,4 +6,4 @@ Language Reactor is a powerful tool for language learning on video sites like Ne
 - Hide hover translations on the bottom of the page
 - Hide hover translations in side panel by default
 
-To toggle side panel subtitle translations on and off you can use the new keyboard shortcut `command + s`. For subtitle translations below the video, use `command + b`.
+To toggle side panel subtitle translations on and off within YouTube or Netflix, you can use the new keyboard shortcut `command + s`. For subtitle translations below the video, use `command + b`.
