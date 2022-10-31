@@ -69,7 +69,7 @@ const addButtons = () => {
   Array.from(document.querySelectorAll(".review-card")).forEach((reviewCard) => {
     const targetWordTranslation = reviewCard.querySelector(".review-card-back").innerText;
 
-    // a word can have multiple contexts, map through each
+    // a word can be saved with multiple contexts, map through each
     Array.from(reviewCard.querySelectorAll(".review-card-example-sentences-article-container .article")).forEach((article) => {
       const buttonAlreadyExists = article.querySelector(".add-to-anki-button");
       if (buttonAlreadyExists) {
@@ -83,13 +83,47 @@ const addButtons = () => {
       // hide extra readings so they don't show up in cards
       Array.from(article.querySelectorAll(".fg, .wpr")).map((reading) => reading.style.visibility = "hidden");
 
-      const targetWord = Array.from(article.querySelectorAll(".sentence .emphasis"))
+      // we need to handle cases where the target word may be split into multiple words,
+      // or occur multiple times in the example sentence
+      let targetWordArray = [];
+      let targetWordWithReadingArray = [];
+      if (article.querySelectorAll(".sentence .emphasis").length > 1) {
+
+        // this is definitly part of the word
+        const firstWordBit = article.querySelectorAll(".sentence .emphasis")[0];
+        targetWordArray.push(firstWordBit);
+        targetWordWithReadingArray.push(firstWordBit.querySelector(".wp"));
+
+        // this _may_ be part of the word
+        let nextWordBit = firstWordBit.nextElementSibling;
+        while (nextWordBit) {
+          // skip trailing "space" elements
+          if (nextWordBit.classList.contains("space")) {
+            nextWordBit = nextWordBit.nextElementSibling;
+          }
+          // if the next child is still not an "emphasis" element we're done with the word
+          if (!nextWordBit.classList.contains("emphasis")) {
+            break;
+          }
+
+          // if we've reached here the next bit is still part of the word
+          targetWordArray.push(nextWordBit);
+          targetWordWithReadingArray.push(nextWordBit.querySelector(".wp"));
+          nextWordBit = nextWordBit.nextElementSibling;
+        }
+      } else {
+        // when there is just one "emphasis" element for the word we can take the easy way out
+        targetWordArray = Array.from(article.querySelectorAll(".sentence .emphasis"));
+        targetWordWithReadingArray = Array.from(article.querySelectorAll(".sentence .emphasis .wp"));
+      }
+
+      const targetWord = targetWordArray
         .map((wordBit) => {
           // remove newlines
           return wordBit.innerText.split("\n").join("");
         })
         .join("");
-      const targetWordWithReading = Array.from(article.querySelectorAll(".sentence .emphasis .wp"))
+      const targetWordWithReading = targetWordWithReadingArray
         .map((wordBit) => {
           const wordCharacterChunk = wordBit.querySelector(".wpt").textContent;
           const reading = wordBit.querySelector(".fg")?.textContent;
@@ -141,7 +175,7 @@ const addButtons = () => {
     });
   });
 
-  // Load buttons for page navigation
+  // load buttons again on page navigation
   listenForPageNavigation();
 };
 
@@ -164,7 +198,7 @@ const listenForPageNavigation = () => {
 };
 
 
-// Wait for remote data request and initial page load
+// wait for remote data request and initial page load
 setTimeout(async () => {
   // await getPermission();
   addButtons();
