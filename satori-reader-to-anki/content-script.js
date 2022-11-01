@@ -62,7 +62,40 @@ const addNote = (params={}) => {
   });
 };
 
+const addCopyKanjiButton = () => {
+  const copyAllKanjiButton = document.createElement("button");
+  copyAllKanjiButton.textContent = "Copy all Kanji";
+  copyAllKanjiButton.classList.add("srta-copy-all-kanji-button");
+  copyAllKanjiButton.title = "Copy kanji in example sentences to clipboard";
+
+  const tooltip = document.createElement("span");
+  tooltip.appendChild(document.createTextNode("Copied!"));
+  tooltip.classList.add("srta-tooltip-text");
+  const buttonWithToolTipContainer = document.createElement("div");
+  buttonWithToolTipContainer.classList.add("srta-tooltip-target");
+  buttonWithToolTipContainer.appendChild(copyAllKanjiButton);
+  buttonWithToolTipContainer.appendChild(tooltip);
+
+  const allKanji = document.createElement("div");
+  allKanji.classList.add("srta-all-kanji");
+  allKanji.style.display = "none";
+
+  const loadStatusMessage = document.querySelector("#review-card-browser-load-status");
+  loadStatusMessage.parentNode.insertBefore(buttonWithToolTipContainer, loadStatusMessage.nextSibling);
+  loadStatusMessage.parentNode.insertBefore(allKanji, loadStatusMessage.nextSibling);
+
+  copyAllKanjiButton.addEventListener("click", () => {
+    const textToCopy = document.querySelector(".srta-all-kanji").innerText;
+    navigator.clipboard.writeText(textToCopy);
+    tooltip.classList.toggle("show", true);
+    setTimeout(() => { tooltip.classList.toggle("show", false); }, 2000);
+  });
+};
+
 const addButtons = () => {
+
+  addCopyKanjiButton();
+
   // turn on all furigana to get readings
   document.querySelector("#article-controls-furigana-all-label").click();
 
@@ -135,17 +168,20 @@ const addButtons = () => {
         })
         .join("");
       const japaneseSentence = article.querySelector(".sentence [data-type='run']").innerText.replace(/\n/g, "");
+      // add example sentence kanji to the all-kanji element which gets copied when the "Copy all kanji" button is clicked
+      document.querySelector(".srta-all-kanji").innerText += japaneseSentence.replace(/[^一-龯]/g, "");
       const englishSentence = article.querySelector(".discussion").innerText;
 
       const addToAnkiButton = document.createElement("button");
       addToAnkiButton.textContent = "Add to Anki";
-      addToAnkiButton.classList.add("add-to-anki-button");
+      addToAnkiButton.title = "Create a new note in Anki with this context";
+      addToAnkiButton.classList.add("srta-add-to-anki-button");
 
       const tooltip = document.createElement("span");
       tooltip.appendChild(document.createTextNode("Added!"));
-      tooltip.classList.add("tooltip-text");
+      tooltip.classList.add("srta-tooltip-text");
       const container = document.createElement("div");
-      container.classList.add("tooltip-target");
+      container.classList.add("srta-tooltip-target");
       container.appendChild(addToAnkiButton);
       container.appendChild(tooltip);
       article.appendChild(container);
@@ -197,9 +233,14 @@ const listenForPageNavigation = () => {
   });
 };
 
-
 // wait for remote data request and initial page load
 setTimeout(async () => {
   // await getPermission();
-  addButtons();
-}, 3000);
+
+  if (document.querySelectorAll(".review-card").length > 0) {
+    addButtons();
+  } else {
+    // retry if page load is too slow
+    setTimeout(() => addButtons(), 2500);
+  }
+}, 2500);
