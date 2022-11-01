@@ -3,18 +3,24 @@
   "description": "Setting sensible defaults for language reactor",
   "version": "1.0",
   "manifest_version": 3,
-  "content_scripts": [{
-    "js": ["content-script.js"],
-    "css": ["lrd-styles.css"],
-    "matches": [
-      "https://www.netflix.com/*",
-      "https://www.youtube.com/*"
-    ]
-  },
-  {
-    "css": ["player-styles.css"],
-    "matches": ["https://www.languagereactor.com/*"]
-  }
+  "content_scripts": [
+    {
+      "js": ["content-script.js"],
+      "css": ["lrd-styles.css"],
+      "matches": [
+        "https://www.netflix.com/*",
+        "https://www.youtube.com/*"
+      ]
+    },
+    {
+      "css": ["player-styles.css"],
+      "matches": ["https://www.languagereactor.com/player"]
+    },
+    {
+      "js": ["saved-items.js"],
+      "css": ["tooltip.css"],
+      "matches": ["https://www.languagereactor.com/saved-items"]
+    }
   ],
   "host_permissions": [
     "https://www.netflix.com/*",
