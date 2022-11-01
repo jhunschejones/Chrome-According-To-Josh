@@ -62,6 +62,9 @@
         xhr.send(JSON.stringify({action, version, params}));
       });
     },
+    unique: (value, index, array) => {
+      return array.indexOf(value) === index;
+    },
     addCopyAllKanjiButton: () => {
       // don't create duplicate buttons, we can re-use the same button from one page to the next
       if (document.querySelector(".srta-copy-all-kanji-button")) {
@@ -76,21 +79,25 @@
       const tooltip = document.createElement("span");
       tooltip.appendChild(document.createTextNode("Copied!"));
       tooltip.classList.add("srta-tooltip-text");
-      const buttonWithToolTipContainer = document.createElement("div");
-      buttonWithToolTipContainer.classList.add("srta-tooltip-target");
-      buttonWithToolTipContainer.appendChild(copyAllKanjiButton);
-      buttonWithToolTipContainer.appendChild(tooltip);
 
-      const allKanji = document.createElement("div");
-      allKanji.classList.add("srta-all-kanji");
-      allKanji.style.display = "none";
+      const container = document.createElement("div");
+      container.classList.add("srta-tooltip-target");
+      container.appendChild(copyAllKanjiButton);
+      container.appendChild(tooltip);
 
       const loadStatusMessage = document.querySelector("#review-card-browser-load-status");
-      loadStatusMessage.parentNode.insertBefore(buttonWithToolTipContainer, loadStatusMessage.nextSibling);
-      loadStatusMessage.parentNode.insertBefore(allKanji, loadStatusMessage.nextSibling);
+      loadStatusMessage.parentNode.insertBefore(container, loadStatusMessage.nextSibling);
 
       copyAllKanjiButton.addEventListener("click", () => {
-        const textToCopy = document.querySelector(".srta-all-kanji").innerText;
+        const textToCopy = Array
+          .from(document.querySelectorAll(".srta-add-to-anki-button"))
+          .filter((button) => {
+            const cardWasDeleted = button.closest(".review-card-and-separator-container").style.opacity == "0"
+            return !cardWasDeleted
+          })
+          .flatMap((button) => button.dataset.kanji.split(""))
+          .filter(app.unique)
+          .join("");
         navigator.clipboard.writeText(textToCopy);
         tooltip.classList.toggle("show", true);
         setTimeout(() => { tooltip.classList.toggle("show", false); }, 2000);
@@ -105,7 +112,7 @@
 
         // a word can be saved with multiple contexts, map through each
         Array.from(reviewCard.querySelectorAll(".review-card-example-sentences-article-container .article")).forEach((article) => {
-          const buttonAlreadyExists = article.querySelector(".add-to-anki-button");
+          const buttonAlreadyExists = article.querySelector(".srta-add-to-anki-button");
           if (buttonAlreadyExists) {
             return;
           }
@@ -169,23 +176,24 @@
             })
             .join("");
           const japaneseSentence = article.querySelector(".sentence [data-type='run']").innerText.replace(/\n/g, "");
-          // add example sentence kanji to the all-kanji element which gets copied when the "Copy all kanji" button is clicked
-          document.querySelector(".srta-all-kanji").innerText += japaneseSentence.replace(/[^一-龯]/g, "");
           const englishSentence = article.querySelector(".discussion").innerText;
 
           const addToAnkiButton = document.createElement("button");
           addToAnkiButton.textContent = "Add to Anki";
           addToAnkiButton.title = "Create a new note in Anki with this context";
           addToAnkiButton.classList.add("srta-add-to-anki-button");
+          addToAnkiButton.dataset.kanji = japaneseSentence.replace(/[^一-龯]/g, "");
 
           const tooltip = document.createElement("span");
           tooltip.appendChild(document.createTextNode("Added!"));
           tooltip.classList.add("srta-tooltip-text");
+
           const container = document.createElement("div");
           container.classList.add("srta-tooltip-target");
           container.classList.add("srta-add-to-anki-button-container");
           container.appendChild(addToAnkiButton);
           container.appendChild(tooltip);
+
           article.appendChild(container);
 
           addToAnkiButton.addEventListener("click", () => {
@@ -217,38 +225,22 @@
     },
     addCreateAnkiNoteButtonsWithRetry: (retrySeconds = 2500) => {
       if (document.querySelectorAll(".review-card").length > 0) {
-        // clean up any old buttons
-        Array.from(document.querySelectorAll(".srta-add-to-anki-button-container")).forEach((button) => button.parentNode.removeChild(button));
         app.addCreateAnkiNoteButtons();
       } else {
         // retry one time in case page load is just slow
-        setTimeout(() => {
-          // clean up any old buttons
-          Array.from(document.querySelectorAll(".srta-add-to-anki-button-container")).forEach((button) => button.parentNode.removeChild(button));
-          app.addCreateAnkiNoteButtons();
-        }, retrySeconds);
+        setTimeout(() => app.addCreateAnkiNoteButtons(), retrySeconds);
       }
     },
     resetOnPaginationClick: () => {
       Array.from(document.querySelectorAll(".review-card-browser-next")).forEach((button) => {
         button.addEventListener("click", () => {
-          document.querySelector(".srta-all-kanji").innerText = "";
-          document.querySelector(".srta-copy-all-kanji-button").style.visibility = "hidden";
-          setTimeout(() => {
-            document.querySelector(".srta-copy-all-kanji-button").style.visibility = "";
-            app.addCreateAnkiNoteButtonsWithRetry();
-          }, 1500);
+          setTimeout(() => app.addCreateAnkiNoteButtonsWithRetry(), 1500);
         });
       });
 
       Array.from(document.querySelectorAll(".review-card-browser-previous")).forEach((button) => {
         button.addEventListener("click", () => {
-          document.querySelector(".srta-all-kanji").innerText = "";
-          document.querySelector(".srta-copy-all-kanji-button").style.visibility = "hidden";
-          setTimeout(() => {
-            document.querySelector(".srta-copy-all-kanji-button").style.visibility = "";
-            app.addCreateAnkiNoteButtonsWithRetry();
-          }, 1500);
+          setTimeout(() => app.addCreateAnkiNoteButtonsWithRetry(), 1500);
         });
       });
     },
@@ -262,15 +254,16 @@
       recreateAnkiButtonsButton.textContent = "🔄";
       recreateAnkiButtonsButton.classList.add("srta-recreate-kanji-buttons");
       recreateAnkiButtonsButton.title = "Recreate all Add to Anki buttons";
-      recreateAnkiButtonsButton.style.top = "64px";
-      recreateAnkiButtonsButton.style.right = "12px";
-      recreateAnkiButtonsButton.style.position = "absolute";
-      recreateAnkiButtonsButton.style.background = "none";
-      recreateAnkiButtonsButton.style.border = "none";
-      recreateAnkiButtonsButton.style.fontSize = "1.4em";
+      recreateAnkiButtonsButton.style.cssText = `
+        top: 64px;
+        left: 12px;
+        position: absolute;
+        background: none;
+        border: none;
+        font-size: 1.4em;
+      `;
 
       document.querySelector("#review-card-browser-cards-page").appendChild(recreateAnkiButtonsButton);
-
       recreateAnkiButtonsButton.addEventListener("click", app.addCreateAnkiNoteButtonsWithRetry);
     }
   };
