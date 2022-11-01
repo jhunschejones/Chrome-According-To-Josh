@@ -92,8 +92,9 @@
         const textToCopy = Array
           .from(document.querySelectorAll(".srta-add-to-anki-button"))
           .filter((button) => {
-            const cardWasDeleted = button.closest(".review-card-and-separator-container").style.opacity == "0"
-            return !cardWasDeleted
+            const cardWasDeleted = button.closest(".review-card-and-separator-container").style.opacity == "0";
+            const allCardsAreDeleted = button.closest("#review-card-browser-cards").style.opacity == "0";
+            return !allCardsAreDeleted && !cardWasDeleted;
           })
           .flatMap((button) => button.dataset.kanji.split(""))
           .filter(app.unique)
@@ -253,18 +254,39 @@
       const recreateAnkiButtonsButton = document.createElement("button");
       recreateAnkiButtonsButton.textContent = "🔄";
       recreateAnkiButtonsButton.classList.add("srta-recreate-kanji-buttons");
-      recreateAnkiButtonsButton.title = "Recreate all Add to Anki buttons";
+      recreateAnkiButtonsButton.title = "Manually create Add to Anki buttons";
       recreateAnkiButtonsButton.style.cssText = `
-        top: 64px;
-        left: 12px;
-        position: absolute;
         background: none;
         border: none;
         font-size: 1.4em;
+        padding: 0px;
       `;
 
-      document.querySelector("#review-card-browser-cards-page").appendChild(recreateAnkiButtonsButton);
-      recreateAnkiButtonsButton.addEventListener("click", app.addCreateAnkiNoteButtonsWithRetry);
+      const tooltip = document.createElement("span");
+      tooltip.appendChild(document.createTextNode("Buttons created!"));
+      tooltip.classList.add("srta-tooltip-text");
+      tooltip.style.cssText = `
+        top: 3px;
+        margin-left: 8px;
+      `;
+
+      const container = document.createElement("div");
+      container.classList.add("srta-tooltip-target");
+      container.classList.add("srta-recreate-kanji-buttons-container");
+      container.style.cssText = `
+        float: left;
+        margin-right: -36px;
+        z-index: 1;
+      `;
+      container.appendChild(recreateAnkiButtonsButton);
+      container.appendChild(tooltip);
+      document.querySelector(".content-with-control-panel").prepend(container);
+
+      recreateAnkiButtonsButton.addEventListener("click", () => {
+        app.addCreateAnkiNoteButtonsWithRetry()
+        tooltip.classList.toggle("show", true);
+        setTimeout(() => { tooltip.classList.toggle("show", false); }, 2000);
+      });
     }
   };
 

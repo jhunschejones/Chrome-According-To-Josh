@@ -11,6 +11,7 @@
   font-size: 0.8em;
   visibility: hidden;
   width: fit-content;
+  white-space: nowrap;
   background-color: #555;
   color: #fff;
   text-align: center;
