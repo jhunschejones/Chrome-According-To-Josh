@@ -62,56 +62,111 @@
         xhr.send(JSON.stringify({action, version, params}));
       });
     },
+    createAddToAnkiButtons: () => {
+      const words = document.querySelectorAll("[data-index]");
+      Array.from(words).forEach((word) => {
+        const buttonAlreadyExists = word.querySelector(".lrd-add-to-anki-button");
+        if (buttonAlreadyExists) {
+          return;
+        }
+
+        const phrase = word.querySelector(".sentence-view");
+        const translation = phrase.parentNode.parentNode.parentNode.nextSibling;
+
+        const addToAnkiButton = document.createElement("button");
+        addToAnkiButton.textContent = "Anki";
+        addToAnkiButton.classList.add("lrd-add-to-anki-button");
+        addToAnkiButton.style.cursor = "pointer";
+        addToAnkiButton.dataset.kanji = phrase.textContent.replace(/[^一-龯]/g, "");
+
+        const tooltip = document.createElement("span");
+        tooltip.appendChild(document.createTextNode("Added!"));
+        tooltip.classList.add("lrd-tooltip-text");
+
+        const container = document.createElement("div");
+        container.classList.add("lrd-tooltip-target");
+        container.appendChild(addToAnkiButton);
+        container.appendChild(tooltip);
+
+        const lastColumn = phrase.parentNode.parentNode.parentNode.nextSibling.nextSibling.nextSibling;
+        lastColumn.setAttribute("style", "width: 120px; flex-shrink: 0;");
+        lastColumn.appendChild(container);
+
+        addToAnkiButton.addEventListener("click", () => {
+          app.addNote(
+            {
+              "note": {
+                "deckName": "Shaping",
+                "modelName": "Japanese 2022 Sentence Card",
+                "fields": {
+                  "Sentence": phrase.textContent,
+                  "Sentence Reading": phrase.textContent,
+                  "Bilingual Definition": `<br><i>${translation.textContent}</i>`,
+                },
+                "tags": ["language_reactor"],
+              }
+            }
+          ).then(() => {
+            // show confirmation new note was added
+            tooltip.classList.toggle("show", true);
+            setTimeout(() => { tooltip.classList.toggle("show", false); }, 2000);
+          }).catch((_error) => {
+            // console.warn(error);
+          });
+        })
+      });
+    },
+    unique: (value, index, array) => {
+      return array.indexOf(value) === index;
+    },
+    createCopyKanjiButton: () => {
+      // don't create duplicate buttons, we can re-use the same button from one page to the next
+      if (document.querySelector(".lrd-copy-all-kanji-button")) {
+        return;
+      }
+
+      const copyAllKanjiButton = document.createElement("button");
+      copyAllKanjiButton.textContent = "Copy all kanji";
+      copyAllKanjiButton.classList.add("lrd-copy-all-kanji-button");
+      copyAllKanjiButton.title = "Copy kanji in example sentences to clipboard";
+      copyAllKanjiButton.style.fontSize = "16px";
+
+      const tooltip = document.createElement("span");
+      tooltip.appendChild(document.createTextNode("Copied!"));
+      tooltip.classList.add("lrd-tooltip-text");
+
+      const container = document.createElement("div");
+      container.classList.add("lrd-tooltip-target");
+      container.appendChild(copyAllKanjiButton);
+      container.appendChild(tooltip);
+      container.style.cssText = `
+        display: inline-flex;
+        height: calc(100% - 10px);
+        margin-bottom: 10px;
+        margin-right: 10px;
+      `;
+
+      const xpath = "//span[text()='Set Vocabulary Level']";
+      const siblingButton = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.parentNode;
+      siblingButton.parentNode.insertBefore(container, siblingButton);
+
+      copyAllKanjiButton.addEventListener("click", () => {
+        const textToCopy = Array
+          .from(document.querySelectorAll(".lrd-add-to-anki-button"))
+          .flatMap((button) => button.dataset.kanji.split(""))
+          .filter(app.unique)
+          .join("");
+        navigator.clipboard.writeText(textToCopy);
+        tooltip.classList.toggle("show", true);
+        setTimeout(() => { tooltip.classList.toggle("show", false); }, 2000);
+      });
+    }
   }
 
   setTimeout(async () => {
     // await app.getPermission();
 
-    const words = document.querySelectorAll("[data-index]");
-    Array.from(words).forEach((word) => {
-      const phrase = word.querySelector(".sentence-view");
-      const translation = phrase.parentNode.parentNode.parentNode.nextSibling;
-
-      const addToAnkiButton = document.createElement("button");
-      addToAnkiButton.textContent = "Anki";
-      addToAnkiButton.classList.add("add-to-anki-button");
-      addToAnkiButton.style.cursor = "pointer";
-
-      const tooltip = document.createElement("span");
-      tooltip.appendChild(document.createTextNode("Added!"));
-      tooltip.classList.add("lrd-tooltip-text");
-
-      const container = document.createElement("div");
-      container.classList.add("lrd-tooltip-target");
-      container.appendChild(addToAnkiButton);
-      container.appendChild(tooltip);
-
-      const lastColumn = phrase.parentNode.parentNode.parentNode.nextSibling.nextSibling.nextSibling;
-      lastColumn.setAttribute("style", "width: 120px; flex-shrink: 0;");
-      lastColumn.appendChild(container);
-
-      addToAnkiButton.addEventListener("click", () => {
-        app.addNote(
-          {
-            "note": {
-              "deckName": "Shaping",
-              "modelName": "Japanese 2022 Sentence Card",
-              "fields": {
-                "Sentence": phrase.textContent,
-                "Sentence Reading": phrase.textContent,
-                "Bilingual Definition": `<br><i>${translation.textContent}</i>`,
-              },
-              "tags": ["language_reactor"],
-            }
-          }
-        ).then(() => {
-          // show confirmation new note was added
-          tooltip.classList.toggle("show", true);
-          setTimeout(() => { tooltip.classList.toggle("show", false); }, 2000);
-        }).catch((_error) => {
-          // console.warn(error);
-        });
-      })
-    });
-  }, 2000);
+    app.createAddToAnkiButtons();
+    app.createCopyKanjiButton();
+  }, 3000);
 })();

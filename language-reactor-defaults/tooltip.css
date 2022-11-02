@@ -22,7 +22,7 @@
   /* top tooltip */
   bottom: 130%;
   left: 50%;
-  margin-left: -30px; /* Use half of the width to center the tooltip */
+  margin-left: -29px; /* Use half of the width to center the tooltip */
 }
 
 /* tooltip arrow */
