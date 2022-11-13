@@ -7,3 +7,8 @@
 #lln-v-sub-hover-translation {
   display: none;
 }
+
+/* Hide tooltips over bottom translations */
+.lln-hover-tooltip .tt {
+  display: none;
+}
