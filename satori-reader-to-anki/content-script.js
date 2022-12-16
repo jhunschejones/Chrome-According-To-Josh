@@ -150,7 +150,10 @@
 
               // if we've reached here the next bit is still part of the word
               targetWordArray.push(nextWordBit);
-              targetWordWithReadingArray.push(nextWordBit.querySelector(".wp"));
+              // a kanji followed by kana can sometimes have multiple `.wp` elements within one `nextWordBit` here
+              // using `querySelectorAll` to get all of them
+              targetWordWithReadingArray.push(Array.from(nextWordBit.querySelectorAll(".wp")));
+
               nextWordBit = nextWordBit.nextElementSibling;
             }
           } else {
@@ -166,6 +169,7 @@
             })
             .join("");
           const targetWordWithReading = targetWordWithReadingArray
+            .flat() // targetWordWithReadingArray can have extra arrays of elements, treat them all the same
             .map((wordBit) => {
               const wordCharacterChunk = wordBit.querySelector(".wpt").textContent;
               const reading = wordBit.querySelector(".fg")?.textContent;
