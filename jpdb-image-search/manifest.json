@@ -1,0 +1,17 @@
+{
+  "name": "JPDB Image Search",
+  "description": "Search for images for jpdb.io vocabulary cards",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts": [{
+    "js": ["content-script.js"],
+    "matches": ["https://jpdb.io/review*"]
+  }],
+  "host_permissions": ["https://jpdb.io/*"],
+  "icons": {
+    "16": "/images/icon-16x16.png",
+    "32": "/images/icon-32x32.png",
+    "48": "/images/icon-192x192.png",
+    "128": "/images/icon-512x512.png"
+  }
+}
