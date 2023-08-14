@@ -1,0 +1,18 @@
+{
+  "name": "JPDB Hide Learn Count",
+  "description": "Hide the 'learn' count in the main nav on jpdb.io",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts": [{
+    "js": ["content-script.js"],
+    "matches": ["https://jpdb.io/*"],
+    "exclude_matches":["https://jpdb.io/review*"]
+  }],
+  "host_permissions": ["https://jpdb.io/*"],
+  "icons": {
+    "16": "/images/icon-16x16.png",
+    "32": "/images/icon-32x32.png",
+    "48": "/images/icon-192x192.png",
+    "128": "/images/icon-512x512.png"
+  }
+}
