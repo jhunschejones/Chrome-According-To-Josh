@@ -6,6 +6,8 @@ const kanjiLeeches = leeches
 
 const wordLeeches = leeches.filter((leech) => !leech.startsWith("Kanji: "));
 
+console.log(`The jpdb-leeches extension is set up to track \x1b[34m${kanjiLeeches.length}\x1b[39m kanji leeches and \x1b[36m${wordLeeches.length}\x1b[39m word leeches 🐛`);
+
 const isAnswerCardUrl = () => {
   return new URLSearchParams(window.location.search).has("c");
 };
@@ -53,7 +55,7 @@ const showAnswerButton = document.querySelector("#show-answer");
 if (showAnswerButton) {
   showAnswerButton.addEventListener("click", () => {
     setTimeout(() => warnOnLeech(), 200);
-  });
+  }, {once: true, passive: true});
 }
 
 warnOnLeech();
