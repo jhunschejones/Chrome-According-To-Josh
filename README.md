@@ -18,7 +18,9 @@ As a friendly reminder, you should always read the code before loading an unpack
 * [`japanesepod101-sentence-mining`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/japanesepod101-sentence-mining): Making it easier to copy audio from lesson dialogs on japanesepod101com.
 * [`clean-copy`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/clean-copy): Copy without formatting on select Japanese language learning sites.
 * [`language-reactor-defaults`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/language-reactor-defaults): Set defaults to make language reactor behave a little better on YouTube and Netflix.
-* [`satori-reader-to-anki`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/satori-reader-to-anki): An anki-connect integration that enables creating Anki cards from the Satori Reader review page
+* [`satori-reader-to-anki`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/satori-reader-to-anki): An anki-connect integration that enables creating Anki cards from the Satori Reader review page.
+* [`jpdb-hide-learn-count`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/jpdb-hide-learn-count): A small helper extension that hides the stressful "learn" count on jpdb.io.
+* [`jpdb-leeches`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/jpdb-leeches): An extension that hi-lights leech cards on jpdb.io based on a manual list.
 
 ### Coding + more:
 * [`gh-new-tab`](https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/gh-new-tab): Adds a toggle-able extension to force README links on GitHub web pages to open in new tabs.
