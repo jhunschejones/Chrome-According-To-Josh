@@ -35,7 +35,7 @@ const reviewKind = () => {
 const outlineLeech = () => {
   const answerBox = document.querySelector(".answer-box") || document.querySelector(".hbox");
   if (!answerBox) return;
-  answerBox.style.boarder = "thick solid rgb(255, 59, 59)";
+  answerBox.style.border = "thick solid rgb(255, 59, 59)";
   answerBox.style.borderRadius = "8px";
 };
 
