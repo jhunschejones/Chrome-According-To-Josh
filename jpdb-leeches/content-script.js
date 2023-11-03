@@ -37,6 +37,7 @@ const outlineLeech = () => {
   if (!answerBox) return;
   answerBox.style.border = "thick solid rgb(255, 59, 59)";
   answerBox.style.borderRadius = "8px";
+  answerBox.style.padding = "16px";
 };
 
 const warnOnLeech = () => {
