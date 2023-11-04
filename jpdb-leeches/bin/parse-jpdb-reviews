@@ -10,21 +10,22 @@
 
 require "json"
 require "fileutils"
+require "pry"
 
 REVIEWS_RELATIVE_PATH = "./tmp/reviews.json"
 WORD_LEECHES_RELATIVE_PATH = "./tmp/word_leeches.json"
 KANJI_LEECHES_RELATIVE_PATH = "./tmp/kanji_leeches.json"
 FAILED_GRADES = ["something", "nothing", "unknown"]
-LAPSE_COUNT_THRESHOLD = 15 # number of failed reviews after the card was first learned after which we should count it as a leech
+LAPSE_COUNT_THRESHOLD = 10 # number of times a card went from "known" to "forgotten" after it was first learned
 
-# Returns the size of the failed reviews _after_ the first time the card
-# was "learned".
+# Returns number of times a card went from "known" to "forgotten" after it was
+# first learned.
 #
 # https://docs.ankiweb.net/deck-options.html#lapses
 def count_lapses(reviews)
   # We only want to count reviews after the first time the card was "learned"
-  # so remove the failed reviews before that point as they were the "learning"
-  # phase.
+  # so begin by removing the failed reviews while the card was still in the
+  # learning phase.
   reviews.each do |review|
     if FAILED_GRADES.include?(review["grade"])
       reviews.shift
@@ -33,7 +34,25 @@ def count_lapses(reviews)
     end
   end
 
-  reviews.filter { |review| FAILED_GRADES.include?(review["grade"]) }.size
+  # Lapses are counted when a card goes from "learned" to "forgotten", so only
+  # count failed reviews after a card was "known", not multiple failed reviews
+  # in a row.
+  lapses = 0
+  forgotten = false
+  reviews.each do |review|
+    # Track "forgotten" so we don't count multiple failures in a row
+    if FAILED_GRADES.include?(review["grade"]) && !forgotten
+      forgotten = true
+      lapses +=1
+    end
+
+    # Reset "forgotten" when card is passed
+    if !FAILED_GRADES.include?(review["grade"]) && forgotten
+      forgotten = false
+    end
+  end
+
+  lapses
 end
 
 reviews_file_path = File.expand_path(REVIEWS_RELATIVE_PATH)
