@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# ./bin/download-jpdb-reviews explanation
+#
+# Required state: NONE
+#
+# Output state:
+# `./tmp/reviews.json`: exported reviews JSON from jpdb.io
+
+# If required environment variables are not set, try loading them from 1Password
+if [[ -z "${JPDB_USERNAME}" ]] || [[ -z "${JPDB_PASSWORD}" ]]; then
+  echo $'\e[37mLogging in to 1Password...\e[0m'
+  op signin
+
+  JPDB_USERNAME=$(op item get "jpdb.io" --fields label=username)
+  JPDB_PASSWORD=$(op item get "jpdb.io" --fields label=password)
+fi
+
+rm -f ./tmp/jpdb-cookie-jar.txt
+rm -f ./tmp/reviews.json
+
+echo $'\e[37mGetting session cookie...\e[0m'
+curl -sS -c ./tmp/jpdb-cookie-jar.txt 'https://jpdb.io/login' \
+  -H 'content-type: application/x-www-form-urlencoded' \
+  -H 'origin: https://jpdb.io' \
+  -H 'referer: https://jpdb.io/login' \
+  --data-raw "username=$JPDB_USERNAME&password=$JPDB_PASSWORD"
+
+echo $'\e[37mDownloading reviews....\e[0m'
+curl -sS -L -b ./tmp/jpdb-cookie-jar.txt 'https://jpdb.io/export/reviews.json?' --output ./tmp/reviews.json
+
+echo $'\e[37mReviews saved to ./tmp/reviews.json 🎉\e[0m'

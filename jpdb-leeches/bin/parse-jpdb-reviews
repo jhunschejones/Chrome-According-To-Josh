@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+
+# ./tmp/parse-jpdb-reviews explanation
+#
+# Required state:
+# `./tmp/reviews.json`: the exported reviews JSON from your jpdb.io account
+#
+# Output state:
+# `./leeches.json`: leech cards for use with the jpdb-leeches chrome extension
+
+require "json"
+require "fileutils"
+
+REVIEWS_RELATIVE_PATH = "./tmp/reviews.json".freeze
+WORD_LEECHES_RELATIVE_PATH = "./tmp/word_leeches.json".freeze
+KANJI_LEECHES_RELATIVE_PATH = "./tmp/kanji_leeches.json".freeze
+LEECH_REVIEW_COUNT_THRESHOLD = 50
+
+reviews_file_path = File.expand_path(REVIEWS_RELATIVE_PATH)
+raise "Missing #{reviews_file_path}".red unless File.exist?(reviews_file_path)
+reviews_json = JSON.parse(File.read(reviews_file_path))
+
+kanji_review_count_by_card = Hash.new {|h, k| h[k] = 0 }
+word_review_count_by_card = Hash.new {|h, k| h[k] = 0 }
+
+reviews_json.keys.each do |review_category|
+  reviews_json[review_category].each do |review|
+    if review["spelling"]
+      word_review_count_by_card[review["spelling"]] += review["reviews"].size
+    end
+
+    if review["character"]
+      kanji_review_count_by_card[review["character"]] += review["reviews"].size
+    end
+  end
+end
+
+word_leeches = word_review_count_by_card
+  .filter { |word, review_count| review_count > LEECH_REVIEW_COUNT_THRESHOLD }
+  .keys
+kanji_leeches = kanji_review_count_by_card
+  .filter { |word, review_count| review_count > LEECH_REVIEW_COUNT_THRESHOLD }
+  .keys
+
+File.open(WORD_LEECHES_RELATIVE_PATH, "w+") { |f| f.puts(word_leeches.to_json) }
+File.open(KANJI_LEECHES_RELATIVE_PATH, "w+") { |f| f.puts(kanji_leeches.to_json) }
+
+# Copy the files into the project directory to be commited
+FileUtils.cp(WORD_LEECHES_RELATIVE_PATH, "./word_leeches.json")
+FileUtils.cp(KANJI_LEECHES_RELATIVE_PATH, "./kanji_leeches.json")

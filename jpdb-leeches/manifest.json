@@ -7,6 +7,10 @@
     "js": ["content-script.js"],
     "matches": ["https://jpdb.io/review*"]
   }],
+  "web_accessible_resources": [{
+    "resources": ["kanji_leeches.json", "word_leeches.json"],
+    "matches": ["https://jpdb.io/*"]
+  }],
   "host_permissions": ["https://jpdb.io/*"],
   "icons": {
     "16": "/images/icon-16x16.png",

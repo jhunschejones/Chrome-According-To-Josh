@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# ./bin/jpdb-logout explanation
+#
+# Required state:
+# `./tmp/jpdb-cookie-jar.txt`: the cookie jar with your jpdb.io session cookie
+#
+# Output state: NONE
+# After running this script your sesion token should no longer be valid on jpdb.io.
+# (This just helps make sure you don't have a large number of valid, unused sessions
+# floating around in the world.)
+
+if [ ! -f ./tmp/jpdb-cookie-jar.txt ]; then
+  echo $'\e[31mMissing required ./tmp/jpdb-cookie-jar.txt file ⚠️\e[0m'
+  exit 0
+fi
+
+curl -sS -c ./tmp/jpdb-cookie-jar.txt 'https://jpdb.io/logout' \
+  -H 'referer: https://jpdb.io/' \
+  -H 'origin: https://jpdb.io'
+
+rm -f ./tmp/jpdb-cookie-jar.txt
