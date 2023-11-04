@@ -1,7 +1,7 @@
 # JPDB Leeches
 
 ### Overview
-This extension helps hi-light leech cards during review sessions jpdb.io. These are cards that are taking more than their fair share of time by coming up for review more often than others.
+"Leeches" are are cards that are taking more than their fair share of time by coming up for review more often than others. This extension helps easily detect and handle leech cards during review sessions jpdb.io.
 
 ### In use
 The `./bin/run` script coordinates the setup for this extension, downloading your `reviews.json` from jpdb.io, transforming the data into a list total study minutes per day, then logging the script session out of jpdb.io.

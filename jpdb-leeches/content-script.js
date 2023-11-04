@@ -32,25 +32,25 @@ const reviewKind = () => {
   return reviewKind;
 };
 
-const outlineLeech = () => {
-  const answerBox = document.querySelector(".answer-box") || document.querySelector(".hbox");
-  if (!answerBox) return;
-  answerBox.style.border = "thick solid rgb(255, 59, 59)";
-  answerBox.style.borderRadius = "8px";
-  answerBox.style.padding = "16px";
+const handleLeechCard = () => {
+  if (confirm("Blacklist this leech card? 🐛") === true) {
+    if (confirm("Are you sure you want to blacklist this card? ⚠️")) {
+      document.querySelector("#grade-blacklist").click();
+    }
+  }
 };
 
 const warnOnLeech = () => {
   if (isAnswerCardUrl() && reviewKind() === "Kanji") {
     const kanji = decodeURIComponent(document.querySelector(".result.kanji .kanji.plain").href.replace("https://jpdb.io/kanji/", "").replace("#a", ""));
-    if (kanjiLeeches.includes(kanji)) outlineLeech();
+    if (kanjiLeeches.includes(kanji)) handleLeechCard();
   }
 
   if (isAnswerCardUrl() && reviewKind() === "Vocabulary") {
     const word = [...document.querySelectorAll(".answer-box .plain .plain ruby")]
       .map((ruby) => ruby.innerHTML.replace(/<rt>.*<\/rt>/g, ""))
       .join("")
-    if (wordLeeches.includes(word)) outlineLeech();
+    if (wordLeeches.includes(word)) handleLeechCard();
   }
 };
 

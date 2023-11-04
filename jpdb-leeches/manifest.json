@@ -1,6 +1,6 @@
 {
   "name": "JPDB Leeches",
-  "description": "Hi-light leech cards during jpdb.io reviews",
+  "description": "Detect and handle leech cards during jpdb.io reviews",
   "version": "1.0",
   "manifest_version": 3,
   "content_scripts": [{
