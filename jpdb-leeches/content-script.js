@@ -47,9 +47,9 @@ const warnOnLeech = () => {
   }
 
   if (isAnswerCardUrl() && reviewKind() === "Vocabulary") {
-    const word = document.querySelector(".answer-box .plain .plain").innerHTML
-      .replace(/<rt>.*<\/rt>/g, "")
-      .replace(/<\/?ruby>/g, "");
+    const word = [...document.querySelectorAll(".answer-box .plain .plain ruby")]
+      .map((ruby) => ruby.innerHTML.replace(/<rt>.*<\/rt>/g, ""))
+      .join("")
     if (wordLeeches.includes(word)) outlineLeech();
   }
 };
