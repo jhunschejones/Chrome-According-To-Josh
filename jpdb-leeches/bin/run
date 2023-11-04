@@ -14,3 +14,5 @@
 ./bin/download-jpdb-reviews
 ./bin/parse-jpdb-reviews
 ./bin/jpdb-logout
+
+rm ./tmp/*.json
