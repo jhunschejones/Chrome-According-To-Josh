@@ -14,5 +14,8 @@
 ./bin/download-jpdb-reviews
 ./bin/parse-jpdb-reviews
 ./bin/jpdb-logout
+# open the extensions tab to remind the user to refresh the extension
+open -a "Google Chrome" chrome://extensions/
 
+# clean up tmp files
 rm ./tmp/*.json
