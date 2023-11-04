@@ -15,7 +15,7 @@ REVIEWS_RELATIVE_PATH = "./tmp/reviews.json"
 WORD_LEECHES_RELATIVE_PATH = "./tmp/word_leeches.json"
 KANJI_LEECHES_RELATIVE_PATH = "./tmp/kanji_leeches.json"
 FAILED_GRADES = ["something", "nothing", "unknown"]
-LAPSE_COUNT_THRESHOLD = 15 # number of failed reviews to count as a leech card
+LAPSE_COUNT_THRESHOLD = 15 # number of failed reviews after the card was first learned after which we should count it as a leech
 
 # Returns the size of the failed reviews _after_ the first time the card
 # was "learned".
