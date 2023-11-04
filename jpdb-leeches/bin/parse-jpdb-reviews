@@ -11,35 +11,55 @@
 require "json"
 require "fileutils"
 
-REVIEWS_RELATIVE_PATH = "./tmp/reviews.json".freeze
-WORD_LEECHES_RELATIVE_PATH = "./tmp/word_leeches.json".freeze
-KANJI_LEECHES_RELATIVE_PATH = "./tmp/kanji_leeches.json".freeze
-LEECH_REVIEW_COUNT_THRESHOLD = 50
+REVIEWS_RELATIVE_PATH = "./tmp/reviews.json"
+WORD_LEECHES_RELATIVE_PATH = "./tmp/word_leeches.json"
+KANJI_LEECHES_RELATIVE_PATH = "./tmp/kanji_leeches.json"
+FAILED_GRADES = ["something", "nothing", "unknown"]
+LAPSE_COUNT_THRESHOLD = 15 # number of failed reviews to count as a leech card
+
+# Returns the size of the failed reviews _after_ the first time the card
+# was "learned".
+#
+# https://docs.ankiweb.net/deck-options.html#lapses
+def count_lapses(reviews)
+  # We only want to count reviews after the first time the card was "learned"
+  # so remove the failed reviews before that point as they were the "learning"
+  # phase.
+  reviews.each do |review|
+    if FAILED_GRADES.include?(review["grade"])
+      reviews.shift
+    else
+      break
+    end
+  end
+
+  reviews.filter { |review| FAILED_GRADES.include?(review["grade"]) }.size
+end
 
 reviews_file_path = File.expand_path(REVIEWS_RELATIVE_PATH)
 raise "Missing #{reviews_file_path}".red unless File.exist?(reviews_file_path)
 reviews_json = JSON.parse(File.read(reviews_file_path))
 
-kanji_review_count_by_card = Hash.new {|h, k| h[k] = 0 }
-word_review_count_by_card = Hash.new {|h, k| h[k] = 0 }
+kanji_lapse_count_by_character = Hash.new {|h, k| h[k] = 0 }
+word_lapse_count_by_word = Hash.new {|h, k| h[k] = 0 }
 
 reviews_json.keys.each do |review_category|
-  reviews_json[review_category].each do |review|
-    if review["spelling"]
-      word_review_count_by_card[review["spelling"]] += review["reviews"].size
+  reviews_json[review_category].each do |card|
+    if card["spelling"]
+      word_lapse_count_by_word[card["spelling"]] += count_lapses(card["reviews"])
     end
 
-    if review["character"]
-      kanji_review_count_by_card[review["character"]] += review["reviews"].size
+    if card["character"]
+      kanji_lapse_count_by_character[card["character"]] += count_lapses(card["reviews"])
     end
   end
 end
 
-word_leeches = word_review_count_by_card
-  .filter { |word, review_count| review_count > LEECH_REVIEW_COUNT_THRESHOLD }
+word_leeches = word_lapse_count_by_word
+  .filter { |word, lapse_count| lapse_count > LAPSE_COUNT_THRESHOLD }
   .keys
-kanji_leeches = kanji_review_count_by_card
-  .filter { |word, review_count| review_count > LEECH_REVIEW_COUNT_THRESHOLD }
+kanji_leeches = kanji_lapse_count_by_character
+  .filter { |kanji, lapse_count| lapse_count > LAPSE_COUNT_THRESHOLD }
   .keys
 
 File.open(WORD_LEECHES_RELATIVE_PATH, "w+") { |f| f.puts(word_leeches.to_json) }
