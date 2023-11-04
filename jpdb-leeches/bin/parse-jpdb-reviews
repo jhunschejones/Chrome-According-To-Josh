@@ -65,6 +65,6 @@ kanji_leeches = kanji_lapse_count_by_character
 File.open(WORD_LEECHES_RELATIVE_PATH, "w+") { |f| f.puts(word_leeches.to_json) }
 File.open(KANJI_LEECHES_RELATIVE_PATH, "w+") { |f| f.puts(kanji_leeches.to_json) }
 
-# Copy the files into the project directory to be commited
-FileUtils.cp(WORD_LEECHES_RELATIVE_PATH, "./word_leeches.json")
-FileUtils.cp(KANJI_LEECHES_RELATIVE_PATH, "./kanji_leeches.json")
+# Copy the files into the data directory to be used in the extension
+FileUtils.cp(WORD_LEECHES_RELATIVE_PATH, "./data/word_leeches.json")
+FileUtils.cp(KANJI_LEECHES_RELATIVE_PATH, "./data/kanji_leeches.json")

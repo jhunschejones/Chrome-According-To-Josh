@@ -8,7 +8,7 @@
     "matches": ["https://jpdb.io/review*"]
   }],
   "web_accessible_resources": [{
-    "resources": ["kanji_leeches.json", "word_leeches.json"],
+    "resources": ["data/kanji_leeches.json", "data/word_leeches.json"],
     "matches": ["https://jpdb.io/*"]
   }],
   "host_permissions": ["https://jpdb.io/*"],
