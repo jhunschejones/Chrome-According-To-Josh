@@ -33,7 +33,7 @@ const reviewKind = () => {
 };
 
 const handleLeechCard = () => {
-  if (confirm("Blacklist this leech card? 🐛") === true) {
+  if (confirm("Blacklist this leech card? 🐛 Esc to cancel.") === true) {
     if (confirm("Are you sure you want to blacklist this card? ⚠️")) {
       document.querySelector("#grade-blacklist").click();
     }
