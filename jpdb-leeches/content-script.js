@@ -32,12 +32,21 @@ const reviewKind = () => {
   return reviewKind;
 };
 
-const handleLeechCard = () => {
+const blacklistCard = (event) => {
   if (confirm("Blacklist this leech card? 🐛 Esc to cancel.") === true) {
     if (confirm("Are you sure you want to blacklist this card? ⚠️")) {
+      // suppress the origional form submission
+      event.preventDefault();
+      event.stopPropagation();
       document.querySelector("#grade-blacklist").click();
     }
   }
+};
+
+// If the user was going to fail the card, offer to blacklist instead
+const handleLeechCard = () => {
+  document.querySelector("input[value='✘ Something']").addEventListener("click", blacklistCard, {once: true});
+  document.querySelector("input[value='✘ Nothing']").addEventListener("click", blacklistCard, {once: true});
 };
 
 const warnOnLeech = () => {
