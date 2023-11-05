@@ -20,4 +20,4 @@ reviews = [
 ]
 
 puts "TEST: LapseCounter ignores initial learning period and doesn't count multiple failed grades per lapse"
-raise unless LapseCounter.count(reviews) != 2
+raise "⚠️ FAILURE" unless LapseCounter.count(reviews) == 2
