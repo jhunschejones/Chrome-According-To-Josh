@@ -1,4 +1,5 @@
 require_relative "../lib/lapse_counter"
+require_relative "../lib/string_utils"
 
 reviews = [
   { "grade" => "unknown" },
@@ -18,6 +19,10 @@ reviews = [
   { "grade" => "okay" },
   { "grade" => "okay" },
 ]
+test_name = "LapseCounter ignores initial learning period and doesn't count multiple failed grades per lapse"
 
-puts "TEST: LapseCounter ignores initial learning period and doesn't count multiple failed grades per lapse"
-raise "⚠️ FAILURE" unless LapseCounter.count(reviews) == 2
+if LapseCounter.count(reviews) == 2
+  puts "PASS: #{test_name}".green
+else
+  puts "FAIL: #{test_name}".red
+end

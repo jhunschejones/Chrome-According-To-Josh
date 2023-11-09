@@ -11,6 +11,7 @@
 require "json"
 require "fileutils"
 require_relative "../lib/lapse_counter"
+require_relative "../lib/string_utils"
 
 REVIEWS_RELATIVE_PATH = "./tmp/reviews.json"
 WORD_LEECHES_RELATIVE_PATH = "./tmp/word_leeches.json"
@@ -49,3 +50,5 @@ File.open(KANJI_LEECHES_RELATIVE_PATH, "w+") { |f| f.puts(kanji_leeches.to_json)
 # Copy the files into the data directory to be used in the extension
 FileUtils.cp(WORD_LEECHES_RELATIVE_PATH, "./data/word_leeches.json")
 FileUtils.cp(KANJI_LEECHES_RELATIVE_PATH, "./data/kanji_leeches.json")
+
+puts "Leeches calculated, make sure to reload your Chrome extension 🐛".gray
