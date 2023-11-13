@@ -16,7 +16,7 @@ require_relative "../lib/string_utils"
 REVIEWS_RELATIVE_PATH = "./tmp/reviews.json"
 WORD_LEECHES_RELATIVE_PATH = "./tmp/word_leeches.json"
 KANJI_LEECHES_RELATIVE_PATH = "./tmp/kanji_leeches.json"
-LAPSE_COUNT_THRESHOLD = 10 # number of times a card went from "known" to "forgotten" after it was first learned
+LAPSE_COUNT_THRESHOLD = 8 # number of times a card went from "known" to "forgotten" after it was first learned
 
 reviews_file_path = File.expand_path(REVIEWS_RELATIVE_PATH)
 raise "Missing #{reviews_file_path}".red unless File.exist?(reviews_file_path)
