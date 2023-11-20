@@ -1,30 +1,30 @@
 (() => {
-  const jpdbLeechesContentScript = {
+  const jpdbLeeches = {
     kanjiLeeches: [],
     wordLeeches: [],
     loadLeeches: async () => {
       const leeches = await chrome.runtime.sendMessage("getLeeches");
-      jpdbLeechesContentScript.kanjiLeeches = leeches ? leeches.kanjiLeeches : [];
-      jpdbLeechesContentScript.wordLeeches = leeches ? leeches.wordLeeches : [];
-      console.log(`The jpdb-leeches extension is set up to track \x1b[34m${jpdbLeechesContentScript.kanjiLeeches.length}\x1b[39m kanji leeches and \x1b[36m${jpdbLeechesContentScript.wordLeeches.length}\x1b[39m word leeches 🐛`);
+      jpdbLeeches.kanjiLeeches = leeches ? leeches.kanjiLeeches : [];
+      jpdbLeeches.wordLeeches = leeches ? leeches.wordLeeches : [];
+      console.log(`The jpdb-leeches extension is set up to track \x1b[34m${jpdbLeeches.kanjiLeeches.length}\x1b[39m kanji leeches and \x1b[36m${jpdbLeeches.wordLeeches.length}\x1b[39m word leeches 🐛`);
 
-      jpdbLeechesContentScript.warnOnLeech();
+      jpdbLeeches.warnOnLeech();
     },
     isAnswerCardUrl: () => new URLSearchParams(window.location.search).has("c"),
     reviewKind: () => {
       let reviewKind;
       // this means we're on a question card
-      if (!jpdbLeechesContentScript.isAnswerCardUrl() && document.querySelector(".answer-box .kind")) {
+      if (!jpdbLeeches.isAnswerCardUrl() && document.querySelector(".answer-box .kind")) {
         reviewKind = document.querySelector(".answer-box .kind").textContent;
       }
 
       // this means we're on a kanji answer card
-      if (reviewKind === undefined && jpdbLeechesContentScript.isAnswerCardUrl() && document.querySelector(".result.kanji .kanji.plain")) {
+      if (reviewKind === undefined && jpdbLeeches.isAnswerCardUrl() && document.querySelector(".result.kanji .kanji.plain")) {
         reviewKind = "Kanji";
       }
 
       // this means we're on a vocabulary answer card
-      if (reviewKind === undefined && jpdbLeechesContentScript.isAnswerCardUrl() && document.querySelector(".answer-box .plain .plain")) {
+      if (reviewKind === undefined && jpdbLeeches.isAnswerCardUrl() && document.querySelector(".answer-box .plain .plain")) {
         reviewKind = "Vocabulary";
       }
 
@@ -42,33 +42,34 @@
     },
     // If the user was going to fail the card, offer to blacklist instead
     handleLeechCard: () => {
-      document.querySelector("input[value='✘ Something']").addEventListener("click", jpdbLeechesContentScript.blacklistCard, {once: true});
-      document.querySelector("input[value='✘ Nothing']").addEventListener("click", jpdbLeechesContentScript.blacklistCard, {once: true});
+      document.querySelector("input[value='✘ Something']").addEventListener("click", jpdbLeeches.blacklistCard, {once: true});
+      document.querySelector("input[value='✘ Nothing']").addEventListener("click", jpdbLeeches.blacklistCard, {once: true});
     },
     warnOnLeech: () => {
-      if (jpdbLeechesContentScript.isAnswerCardUrl() && jpdbLeechesContentScript.reviewKind() === "Kanji") {
+      if (jpdbLeeches.isAnswerCardUrl() && jpdbLeeches.reviewKind() === "Kanji") {
         const kanji = decodeURIComponent(document.querySelector(".result.kanji .kanji.plain").href.replace("https://jpdb.io/kanji/", "").replace("#a", ""));
-        if (jpdbLeechesContentScript.kanjiLeeches.includes(kanji)) {
-          jpdbLeechesContentScript.handleLeechCard();
+        if (jpdbLeeches.kanjiLeeches.includes(kanji)) {
+          jpdbLeeches.handleLeechCard();
         }
       }
 
-      if (jpdbLeechesContentScript.isAnswerCardUrl() && jpdbLeechesContentScript.reviewKind() === "Vocabulary") {
+      if (jpdbLeeches.isAnswerCardUrl() && jpdbLeeches.reviewKind() === "Vocabulary") {
         const word = [...document.querySelectorAll(".answer-box .plain .plain ruby")]
           .map((ruby) => ruby.innerHTML.replace(/<rt>.*<\/rt>/g, ""))
           .join("")
-        if (jpdbLeechesContentScript.wordLeeches.includes(word)) {
-          jpdbLeechesContentScript.handleLeechCard();
+        if (jpdbLeeches.wordLeeches.includes(word)) {
+          jpdbLeeches.handleLeechCard();
         }
       }
     },
   };
 
-  jpdbLeechesContentScript.showAnswerButton = document.querySelector("#show-answer");
-  if (jpdbLeechesContentScript.showAnswerButton) {
-    jpdbLeechesContentScript.showAnswerButton.addEventListener("click", () => {
-      setTimeout(() => jpdbLeechesContentScript.warnOnLeech(), 100);
+  jpdbLeeches.showAnswerButton = document.querySelector("#show-answer");
+  if (jpdbLeeches.showAnswerButton) {
+    jpdbLeeches.showAnswerButton.addEventListener("click", () => {
+      setTimeout(() => jpdbLeeches.warnOnLeech(), 100);
     }, {once: true, passive: true});
   }
-  jpdbLeechesContentScript.loadLeeches();
+
+  jpdbLeeches.loadLeeches();
 })();
