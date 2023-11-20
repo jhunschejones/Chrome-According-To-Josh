@@ -1,8 +1,9 @@
 let kanjiLeeches = [];
 let wordLeeches = [];
 const loadLeeches = async () => {
-  kanjiLeeches = await fetch(chrome.runtime.getURL("data/kanji_leeches.json")).then((response) => response.json()).catch((_error) => console.error("Looks like you still need to set up the kanji leeches data."));
-  wordLeeches = await fetch(chrome.runtime.getURL("data/word_leeches.json")).then((response) => response.json()).catch((_error) => console.error("Looks like you still need to set up the kanji leeches data."));
+  const leeches = await chrome.runtime.sendMessage("getLeeches");
+  kanjiLeeches = leeches ? leeches.kanjiLeeches : [];
+  wordLeeches = leeches ? leeches.wordLeeches : [];
   console.log(`The jpdb-leeches extension is set up to track \x1b[34m${kanjiLeeches.length}\x1b[39m kanji leeches and \x1b[36m${wordLeeches.length}\x1b[39m word leeches 🐛`);
 
   warnOnLeech();
