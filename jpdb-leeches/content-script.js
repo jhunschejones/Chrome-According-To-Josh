@@ -1,5 +1,7 @@
 (() => {
   const jpdbLeeches = {
+    VOCABULARY: "Vocabulary",
+    KANJI: "Kanji",
     kanjiLeeches: [],
     wordLeeches: [],
     loadLeeches: async () => {
@@ -20,17 +22,17 @@
 
       // this means we're on a kanji answer card
       if (reviewKind === undefined && jpdbLeeches.isAnswerCardUrl() && document.querySelector(".result.kanji .kanji.plain")) {
-        reviewKind = "Kanji";
+        reviewKind = jpdbLeeches.KANJI;
       }
 
       // this means we're on a vocabulary answer card
       if (reviewKind === undefined && jpdbLeeches.isAnswerCardUrl() && document.querySelector(".answer-box .plain .plain")) {
-        reviewKind = "Vocabulary";
+        reviewKind = jpdbLeeches.VOCABULARY;
       }
 
       return reviewKind;
     },
-    blacklistCard: (event) => {
+    blacklistOrResetCard: (event) => {
       if (confirm("Blacklist this leech card? 🐛 Esc to cancel.") === true) {
         if (confirm("Are you sure you want to blacklist this card? ⚠️")) {
           // suppress the origional form submission
@@ -38,22 +40,40 @@
           event.stopPropagation();
           document.querySelector("#grade-blacklist").click();
         }
+      } else {
+        if (confirm("Would you like to reset the review history for this card?") === true) {
+          // suppress the origional form submission
+          event.preventDefault();
+          event.stopPropagation();
+
+          if (jpdbLeeches.reviewKind() === jpdbLeeches.VOCABULARY) {
+            window.open(
+              document.querySelector(".answer-box .plain a").href.split("#")[0] + "/review-history",
+              "_blank"
+            ).focus();
+          } else if (jpdbLeeches.reviewKind() === jpdbLeeches.KANJI) {
+            window.open(
+              document.querySelector(".result.kanji a").href.split("#")[0] + "/review-history",
+              "_blank"
+            ).focus();
+          }
+        }
       }
     },
     // If the user was going to fail the card, offer to blacklist instead
     handleLeechCard: () => {
-      document.querySelector("input[value='✘ Something']").addEventListener("click", jpdbLeeches.blacklistCard, {once: true});
-      document.querySelector("input[value='✘ Nothing']").addEventListener("click", jpdbLeeches.blacklistCard, {once: true});
+      document.querySelector("input[value='✘ Something']").addEventListener("click", jpdbLeeches.blacklistOrResetCard, {once: true});
+      document.querySelector("input[value='✘ Nothing']").addEventListener("click", jpdbLeeches.blacklistOrResetCard, {once: true});
     },
     warnOnLeech: () => {
-      if (jpdbLeeches.isAnswerCardUrl() && jpdbLeeches.reviewKind() === "Kanji") {
+      if (jpdbLeeches.isAnswerCardUrl() && jpdbLeeches.reviewKind() === jpdbLeeches.KANJI) {
         const kanji = decodeURIComponent(document.querySelector(".result.kanji .kanji.plain").href.replace("https://jpdb.io/kanji/", "").replace("#a", ""));
         if (jpdbLeeches.kanjiLeeches.includes(kanji)) {
           jpdbLeeches.handleLeechCard();
         }
       }
 
-      if (jpdbLeeches.isAnswerCardUrl() && jpdbLeeches.reviewKind() === "Vocabulary") {
+      if (jpdbLeeches.isAnswerCardUrl() && jpdbLeeches.reviewKind() === jpdbLeeches.VOCABULARY) {
         const word = [...document.querySelectorAll(".answer-box .plain .plain ruby")]
           .map((ruby) => ruby.innerHTML.replace(/<rt>.*<\/rt>/g, ""))
           .join("")
