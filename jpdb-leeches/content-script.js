@@ -42,10 +42,6 @@
         }
       } else {
         if (confirm("Would you like to reset the review history for this card?") === true) {
-          // suppress the origional form submission
-          event.preventDefault();
-          event.stopPropagation();
-
           if (jpdbLeeches.reviewKind() === jpdbLeeches.VOCABULARY) {
             window.open(
               document.querySelector(".answer-box .plain a").href.split("#")[0] + "/review-history",
