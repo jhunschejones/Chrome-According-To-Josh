@@ -1,11 +1,11 @@
 {
   "name": "JPDB Shortcuts",
-  "description": "Add custom keyboard shortcuts to jpdb.io",
+  "description": "Add custom keyboard shortcuts to the review page on jpdb.io",
   "version": "1.0",
   "manifest_version": 3,
   "content_scripts": [{
     "js": ["content-script.js"],
-    "matches": ["https://jpdb.io/*"]
+    "matches": ["https://jpdb.io/review*"]
   }],
   "host_permissions": ["https://jpdb.io/*"],
   "icons": {
