@@ -1,0 +1,10 @@
+.answer-box {
+  display: flex;
+  align-items: center;
+}
+
+.answer-box img {
+  margin: 8px;
+  max-width: 325px;
+  height: auto;
+}

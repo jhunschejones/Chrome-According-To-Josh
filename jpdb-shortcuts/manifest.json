@@ -5,6 +5,7 @@
   "manifest_version": 3,
   "content_scripts": [{
     "js": ["content-script.js"],
+    "css": ["images.css"],
     "matches": ["https://jpdb.io/review*"]
   }],
   "host_permissions": ["https://jpdb.io/*"],
