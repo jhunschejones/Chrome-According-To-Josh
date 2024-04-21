@@ -6,11 +6,11 @@ const getLeechesFromGitHub = async () => {
   const wordLeeches = await fetch("https://raw.githubusercontent.com/jhunschejones/jpdb_stats/main/data/word_leeches.json", {mode: "no-cors"})
     .then((response) => response.json())
     .catch((_error) => console.error("Unable to get word leeches data from GitHub."));
-  const unlearnableCards = await fetch("https://raw.githubusercontent.com/jhunschejones/jpdb_stats/main/data/unlearnable_words.json", {mode: "no-cors"})
+  const unlearnableWords = await fetch("https://raw.githubusercontent.com/jhunschejones/jpdb_stats/main/data/unlearnable_words.json", {mode: "no-cors"})
     .then((response) => response.json())
-    .catch((_error) => console.error("Unable to get unlearnable cards data from GitHub."));
+    .catch((_error) => console.error("Unable to get unlearnable words data from GitHub."));
 
-  return {kanjiLeeches, wordLeeches, unlearnableCards};
+  return {kanjiLeeches, wordLeeches, unlearnableWords};
 };
 
 const todayDateString = () => {
@@ -20,12 +20,12 @@ const todayDateString = () => {
 
 const setLeechesInLocalStorage = () => {
   console.log("setLeechesInLocalStorage")
-  return getLeechesFromGitHub().then(({kanjiLeeches, wordLeeches, unlearnableCards}) => {
+  return getLeechesFromGitHub().then(({kanjiLeeches, wordLeeches, unlearnableWords}) => {
     chrome.storage.local.set({leechesValidOn: todayDateString()});
     chrome.storage.local.set({kanjiLeeches});
     chrome.storage.local.set({wordLeeches});
-    chrome.storage.local.set({unlearnableCards});
-    return {kanjiLeeches, wordLeeches, unlearnableCards};
+    chrome.storage.local.set({unlearnableWords});
+    return {kanjiLeeches, wordLeeches, unlearnableWords};
   })
 };
 
@@ -36,8 +36,8 @@ const getLeechesFromLocalStorage = async () => {
   if (leechesValidOn == todayDateString()) {
     const {kanjiLeeches} = await chrome.storage.local.get("kanjiLeeches");
     const {wordLeeches} = await chrome.storage.local.get("wordLeeches");
-    const {unlearnableCards} = await chrome.storage.local.get("unlearnableCards");
-    return {kanjiLeeches, wordLeeches, unlearnableCards};
+    const {unlearnableWords} = await chrome.storage.local.get("unlearnableWords");
+    return {kanjiLeeches, wordLeeches, unlearnableWords};
   }
   // ...otherwise get new ones
   return setLeechesInLocalStorage();

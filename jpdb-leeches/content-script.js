@@ -8,8 +8,8 @@
       const leeches = await chrome.runtime.sendMessage("getLeeches");
       jpdbLeeches.kanjiLeeches = leeches ? leeches.kanjiLeeches : [];
       jpdbLeeches.wordLeeches = leeches ? leeches.wordLeeches : [];
-      jpdbLeeches.unlearnableCards = leeches ? leeches.unlearnableCards : [];
-      console.log(`The jpdb-leeches extension is set up to track \x1b[34m${jpdbLeeches.kanjiLeeches.length}\x1b[39m kanji leeches, \x1b[36m${jpdbLeeches.wordLeeches.length}\x1b[39m word leeches, and \x1b[33m${jpdbLeeches.unlearnableCards.length}\x1b[39m unlearnable cards 🐛`);
+      jpdbLeeches.unlearnableWords = leeches ? leeches.unlearnableWords : [];
+      console.log(`The jpdb-leeches extension is set up to track \x1b[34m${jpdbLeeches.kanjiLeeches.length}\x1b[39m kanji leeches, \x1b[36m${jpdbLeeches.wordLeeches.length}\x1b[39m word leeches, and \x1b[33m${jpdbLeeches.unlearnableWords.length}\x1b[39m unlearnable words 🐛`);
 
       jpdbLeeches.warnOnLeech();
     },
@@ -78,9 +78,6 @@
         if (jpdbLeeches.kanjiLeeches.includes(kanji)) {
           return jpdbLeeches.handleLeechCard();
         }
-        if (jpdbLeeches.unlearnableCards.includes(kanji)) {
-          return jpdbLeeches.handleLeechCard(true);
-        }
       }
 
       if (jpdbLeeches.isAnswerCardUrl() && jpdbLeeches.reviewKind() === jpdbLeeches.VOCABULARY) {
@@ -90,7 +87,7 @@
         if (jpdbLeeches.wordLeeches.includes(word)) {
           return jpdbLeeches.handleLeechCard();
         }
-        if (jpdbLeeches.unlearnableCards.includes(word)) {
+        if (jpdbLeeches.unlearnableWords.includes(word)) {
           return jpdbLeeches.handleLeechCard(true);
         }
       }
