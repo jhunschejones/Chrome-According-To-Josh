@@ -9,8 +9,11 @@ const getLeechesFromGitHub = async () => {
   const unlearnableWords = await fetch("https://raw.githubusercontent.com/jhunschejones/jpdb_stats/main/data/unlearnable_words.json", {mode: "no-cors"})
     .then((response) => response.json())
     .catch((_error) => console.error("Unable to get unlearnable words data from GitHub."));
+  const unlearnableKanji = await fetch("https://raw.githubusercontent.com/jhunschejones/jpdb_stats/main/data/unlearnable_kanji.json", {mode: "no-cors"})
+    .then((response) => response.json())
+    .catch((_error) => console.error("Unable to get unlearnable kanji data from GitHub."));
 
-  return {kanjiLeeches, wordLeeches, unlearnableWords};
+  return {kanjiLeeches, wordLeeches, unlearnableWords, unlearnableKanji};
 };
 
 const todayDateString = () => {
@@ -20,12 +23,13 @@ const todayDateString = () => {
 
 const setLeechesInLocalStorage = () => {
   console.log("setLeechesInLocalStorage")
-  return getLeechesFromGitHub().then(({kanjiLeeches, wordLeeches, unlearnableWords}) => {
+  return getLeechesFromGitHub().then(({kanjiLeeches, wordLeeches, unlearnableWords, unlearnableKanji}) => {
     chrome.storage.local.set({leechesValidOn: todayDateString()});
     chrome.storage.local.set({kanjiLeeches});
     chrome.storage.local.set({wordLeeches});
     chrome.storage.local.set({unlearnableWords});
-    return {kanjiLeeches, wordLeeches, unlearnableWords};
+    chrome.storage.local.set({unlearnableKanji});
+    return {kanjiLeeches, wordLeeches, unlearnableWords, unlearnableKanji};
   })
 };
 
@@ -37,7 +41,8 @@ const getLeechesFromLocalStorage = async () => {
     const {kanjiLeeches} = await chrome.storage.local.get("kanjiLeeches");
     const {wordLeeches} = await chrome.storage.local.get("wordLeeches");
     const {unlearnableWords} = await chrome.storage.local.get("unlearnableWords");
-    return {kanjiLeeches, wordLeeches, unlearnableWords};
+    const {unlearnableKanji} = await chrome.storage.local.get("unlearnableKanji");
+    return {kanjiLeeches, wordLeeches, unlearnableWords, unlearnableKanji};
   }
   // ...otherwise get new ones
   return setLeechesInLocalStorage();
