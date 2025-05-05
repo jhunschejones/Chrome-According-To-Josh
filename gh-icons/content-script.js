@@ -4,6 +4,12 @@ if (window.location.pathname == "/notifications") {
   });
 }
 
+if (window.location.pathname == "/pulls/review-requested") {
+  document.querySelectorAll(".js-site-favicon").forEach((icon) => {
+    icon.href = chrome.runtime.getURL("/images/review-requested.png");
+  });
+}
+
 if (window.location.pathname.includes("/projects/")) {
   // custom styling for my personal project board
   if (window.location.pathname.includes("/github/projects/5488")) {
