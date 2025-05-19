@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "Collapse All Tab Groups",
+  "version": "1.0",
+  "description": "Collapse all tab groups with a keyboard shortcut.",
+  "permissions": ["tabGroups", "tabs"],
+  "action": {
+    "default_title": "Collapse Tab Groups",
+    "default_icon": {
+      "16": "/images/icon-16x16.png",
+      "32": "/images/icon-32x32.png",
+      "192": "/images/icon-192x192.png",
+      "512": "/images/icon-512x512.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "collapse-all-groups": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+G",
+        "mac": "Command+Shift+G"
+      },
+      "description": "Collapse all tab groups"
+    }
+  },
+  "icons": {
+    "16": "/images/icon-16x16.png",
+    "32": "/images/icon-32x32.png",
+    "192": "/images/icon-192x192.png",
+    "512": "/images/icon-512x512.png"
+  }
+}
