@@ -1,10 +1,12 @@
+const params = new URLSearchParams(window.location.search);
+
 if (window.location.pathname == "/notifications") {
   document.querySelectorAll(".js-site-favicon").forEach((icon) => {
     icon.href = chrome.runtime.getURL("/images/notifications-icon.png");
   });
 }
 
-if (window.location.pathname == "/pulls/review-requested") {
+if (window.location.pathname.includes("/pulls") && params.get("q").includes("involves:@me")) {
   document.querySelectorAll(".js-site-favicon").forEach((icon) => {
     icon.href = chrome.runtime.getURL("/images/review-requested.png");
   });
