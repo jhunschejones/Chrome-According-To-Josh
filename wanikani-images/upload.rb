@@ -1,6 +1,4 @@
-# Save this file somewhere permanent, e.g., ~/Scripts/upload_leech.rb
 #!/usr/bin/env ruby
-# Remember to install the 'json' gem: gem install json
 require "json"
 
 # Arguments from Automator will be passed as separate strings in ARGV
@@ -19,18 +17,18 @@ unless file_path.downcase.match?(/\.(jpe?g|png|gif)$/)
   exit
 end
 
-# --- Your Imgur Upload Function (Simplified) ---
-client_id = "YOUR_CLIENT_ID_HERE"
-curl_command = %Q(curl -s -X POST -H "Authorization: Client-ID #{client_id}" -F "image=@#{file_path}" https://api.imgur.com/3/upload)
+API_KEY = `op item get ImgBB --fields label=api_key`.chomp
+
+curl_command = %Q(curl -s -X POST -F "image=@#{file_path}" "https://api.imgbb.com/1/upload?key=#{API_KEY}")
 
 json_output = `#{curl_command}`
 response = JSON.parse(json_output)
-direct_url = response.dig('data', 'link').to_s.sub('http://', 'https://') rescue nil
+direct_url = response.dig('data', 'url').to_s.sub('http://', 'https://') rescue nil
 
 # --- Output the result to a log or notification ---
 if direct_url && !direct_url.empty?
   # Copy the URL to the clipboard (macOS specific command)
-  `echo -n "#{direct_url}" | pbcopy`
+  IO.popen("pbcopy", "w") { |io| io << direct_url }
   puts "SUCCESS! Uploaded #{File.basename(file_path)}: #{direct_url} (Copied to clipboard)"
 else
   puts "ERROR: Imgur upload failed for #{file_path}."
