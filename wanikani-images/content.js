@@ -57,7 +57,7 @@
     img.src = tryConvertImgurUrl(imageUrl) || imageUrl;
     img.alt = altText || 'WaniKani note image';
     img.setAttribute('data-wanikani-extension', 'true');
-    img.style.cssText = 'max-width: 100%; height: auto; display: block; margin: 10px 0;';
+    img.style.cssText = 'max-width: 500px; height: auto; display: block; margin: 10px 0;';
 
     img.onerror = function() {
       img.style.display = 'none';
