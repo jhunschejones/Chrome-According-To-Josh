@@ -21,28 +21,6 @@
     return null;
   }
 
-  function isImgurAlbumLink(url) {
-    try {
-      const urlObj = new URL(url);
-      return urlObj.hostname.includes('imgur.com') &&
-             (urlObj.pathname.startsWith('/a/') || urlObj.pathname.startsWith('/gallery/'));
-    } catch (e) {
-      return false;
-    }
-  }
-
-  function tryConvertImgurUrl(url) {
-    try {
-      const urlObj = new URL(url);
-      if (urlObj.hostname === 'i.imgur.com') return url;
-      if (isImgurAlbumLink(url)) return null;
-      if (urlObj.hostname.includes('imgur.com') && urlObj.pathname.match(/^\/[a-zA-Z0-9]+$/)) {
-        return `https://i.imgur.com/${urlObj.pathname.substring(1)}.jpg`;
-      }
-    } catch (e) {}
-    return null;
-  }
-
   function isValidImageUrl(url) {
     if (!url) return false;
     try {
@@ -54,7 +32,7 @@
 
   function createImageElement(imageUrl, altText, container) {
     const img = document.createElement('img');
-    img.src = tryConvertImgurUrl(imageUrl) || imageUrl;
+    img.src = imageUrl;
     img.alt = altText || 'WaniKani note image';
     img.setAttribute('data-wanikani-extension', 'true');
     img.style.cssText = 'max-width: 500px; height: auto; display: block; margin: 10px 0;';
@@ -71,9 +49,7 @@
       errorDiv.className = 'wanikani-image-error';
       errorDiv.style.cssText = 'padding: 10px; background-color: #fee; border: 1px solid #fcc; border-radius: 4px; margin: 10px 0; font-size: 12px; color: #c33;';
       errorDiv.innerHTML = '<strong>⚠️ Image failed to load</strong><br>URL: ' + imageUrl + '<br>' +
-        (isImgurAlbumLink(imageUrl)
-          ? '<em>This is an Imgur album link. Use a direct image URL instead.</em>'
-          : '<em>Please check that the URL is a direct link to an image file.</em>');
+        '<em>Please check that the URL is a direct link to an image file.</em>';
 
       if (img.parentNode) {
         img.parentNode.insertBefore(errorDiv, img.nextSibling || null);

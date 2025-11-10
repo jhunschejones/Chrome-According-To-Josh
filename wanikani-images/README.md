@@ -41,7 +41,7 @@ Uploads a single image file to **ImgBB**, copies the direct URL to your clipboar
 **Requirements:**
 - Ruby (3.x recommended)
 - macOS clipboard utility (`pbcopy`)
-- [1Password CLI](https://developer.1password.com/docs/cli/) item named `ImgBB` with a field labeled `api_key`
+- ImgBB API key (via environment variable `IMG_BB_API_KEY` or [1Password CLI](https://developer.1password.com/docs/cli/) item named `ImgBB` with a field labeled `api_key`)
 
 **Usage:**
 ```bash
@@ -50,14 +50,17 @@ ruby upload.rb /path/to/image.jpg
 > SUCCESS! Uploaded image.jpg: https://i.ibb.co/abcd123/image.jpg (Copied to clipboard)
 ```
 
+**API Key:**
+The script will use `IMG_BB_API_KEY` environment variable if set, otherwise it will fall back to retrieving the API key from 1Password.
+
 ### `watch.rb`
 
 A directory watcher that automatically uploads new image files using upload.rb.
-It’s written in pure Ruby using the listen gem (no shell scripts or fswatch needed).
 
 **Requirements:**
 - Ruby (3.x)
 - Bundler (`gem install bundler`)
+- [1Password CLI](https://developer.1password.com/docs/cli/) item named `ImgBB` with a field labeled `api_key` (or set `IMG_BB_API_KEY` environment variable)
 
 **Setup:**
 ```bash
@@ -70,9 +73,15 @@ bundle install
 bundle exec ruby watch.rb
 ```
 
+**Dry Run Mode:**
+To test the watcher without actually uploading files, set the `DRY_RUN` environment variable:
+```bash
+DRY_RUN=1 bundle exec ruby watch.rb
+```
+
 It will watch your `~/Downloads/wanikani_images` folder (by default), and whenever a new image finishes downloading, it will:
 - Wait until the file is completely written.
-- Upload it to ImgBB.
+- Upload it to ImgBB (unless in dry run mode).
 - Copy the direct link to your clipboard.
 - Print the success message.
 

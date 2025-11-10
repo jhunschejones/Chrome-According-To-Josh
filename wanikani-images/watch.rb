@@ -4,6 +4,7 @@ require 'shellwords'
 
 WATCH_DIR   = File.expand_path("~/Downloads/wanikani_images")
 RUBY_SCRIPT = File.expand_path("~/Documents/GitHub/Chrome-According-To-Josh/wanikani-images/upload.rb")
+ENV["IMG_BB_API_KEY"] = `op item get ImgBB --fields label=api_key --reveal`.chomp
 
 puts "👀 Watching #{WATCH_DIR} for new image files... (Ctrl+C to stop)"
 
@@ -21,8 +22,12 @@ listener = Listen.to(WATCH_DIR, only: /\.(jpg|jpeg|png|gif)$/i) do |_modified, a
 
     puts "--- ✅ New completed file detected: #{file_path} ---"
 
-    # Run your uploader once per file
-    system(RUBY_SCRIPT, file_path)
+    if ENV["DRY_RUN"]
+      puts "👀 DRY RUN: Would have uploaded #{file_path}"
+    else
+      # Run your uploader once per file
+      system(RUBY_SCRIPT, file_path)
+    end
   end
 end
 

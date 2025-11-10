@@ -17,7 +17,7 @@ unless file_path.downcase.match?(/\.(jpe?g|png|gif)$/)
   exit
 end
 
-API_KEY = `op item get ImgBB --fields label=api_key`.chomp
+API_KEY = ENV["IMG_BB_API_KEY"] || `op item get ImgBB --fields label=api_key --reveal`.chomp
 
 curl_command = %Q(curl -s -X POST -F "image=@#{file_path}" "https://api.imgbb.com/1/upload?key=#{API_KEY}")
 
@@ -31,7 +31,7 @@ if direct_url && !direct_url.empty?
   IO.popen("pbcopy", "w") { |io| io << direct_url }
   puts "SUCCESS! Uploaded #{File.basename(file_path)}: #{direct_url} (Copied to clipboard)"
 else
-  puts "ERROR: Imgur upload failed for #{file_path}."
+  puts "ERROR: ImgBB upload failed for #{file_path}."
 end
 
 
@@ -47,6 +47,6 @@ end
 #     - Delete the default shell script content.
 #     - Enter the following single line (which executes your saved script): /Users/YourName/Scripts/upload_leech.rb "$@"
 #     -
-# 5. Save the workflow (e.g., "Auto Upload Imgur").
+# 5. Save the workflow (e.g., "Auto Upload ImgBB").
 #
 # Now, every time an image is added to that folder, Automator will automatically run your Ruby script on that file.
